@@ -104,3 +104,68 @@ jQuery(document).ready(function($) {
         // Handle the next step submission or navigation
     });
 });
+
+const firstButton = document.getElementById('button1')
+const secondButton = document.getElementById('button2')
+const thirdButton = document.getElementById('button3')
+const fourButton = document.getElementById('button4')
+
+const plans = document.getElementsByName("plan")
+const cars = document.getElementsByName("cars")
+const membership = document.getElementsByName("membership")
+const payment = document.getElementsByName("payment")
+
+
+
+const plansRadioHanlder = ()=>{
+    for(i=0 ; i<plans.length; i++){
+        if(plans[i].checked===true){
+            firstButton.disabled =false
+        }
+    }
+}
+
+    for(i=0 ;i<plans.length; i++){
+        plans[i].addEventListener('click', plansRadioHanlder)
+
+    }
+
+    window.addEventListener('load' , plansRadioHanlder )
+
+    const carsRadioHanlder = ()=>{
+        for(i=0 ; i<cars.length; i++){
+            if(cars[i].checked===true){
+                secondButton.disabled =false
+            }
+        }
+    }
+    
+        for(i=0 ;i<cars.length; i++){
+            cars[i].addEventListener('click', carsRadioHanlder)
+    
+        }
+
+        window.addEventListener('load' , carsRadioHanlder )
+
+
+        const membershipHanlder = ()=>{
+            for(i=0 ; i<membership.length; i++){
+                if(membership[i].checked===true){
+                    thirdButton.disabled =false
+                }
+            }
+        }
+    
+        
+        for(i=0 ;i<membership.length; i++){
+                membership[i].addEventListener('click', membershipHanlder)
+               
+        }
+
+
+
+        for(i=0 ;i<payment.length; i++){
+            payment[i].addEventListener('click', ()=>{
+                    fourButton.disabled =false
+           
+    })}

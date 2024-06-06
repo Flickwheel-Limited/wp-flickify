@@ -3,7 +3,7 @@
 Plugin Name: Flickify
 Description: A plugin to display premium maintenance membership forms.
 Version: 1.0
-Author: Paul Edward
+Author: Paul Edward, Grace Effiong
 */
 
 // Exit if accessed directly.

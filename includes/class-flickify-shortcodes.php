@@ -9,45 +9,67 @@ class Flickify_Shortcodes {
     public static function render_form() {
         ob_start();
         ?>
-        <div class="flickify-form">
-            <!-- Step 1 Form -->
-            <div id="step1">
-                <h2>Premium Maintenance Membership</h2>
-                <p>Unlock exclusive benefits with our personalized car maintenance services.</p>
-                <form id="flickify-step1-form">
-                    <label>
-                        <input type="radio" name="membership_option" value="1">
-                        For Myself
-                    </label>
-                    <label>
-                        <input type="radio" name="membership_option" value="2">
-                        For a Friend/Family
-                    </label>
-                    <button type="submit">Continue</button>
-                </form>
-            </div>
-
-            <!-- Step 2 Form -->
-            <div id="step2" style="display:none;">
-                <h2>Please Provide Your Recipient Personal Info</h2>
-                <form id="flickify-step2-form">
-                    <input type="text" name="first_name" placeholder="First Name" required>
-                    <input type="text" name="last_name" placeholder="Last Name" required>
-                    <input type="text" name="phone" placeholder="Phone Number" required>
-                    <input type="email" name="email" placeholder="Email" required>
-                    <button type="submit">Continue</button>
-                </form>
-            </div>
-
-            <!-- Step 3 Form -->
-            <div id="step3" style="display:none;">
-                <h2>Select the category that best describes your car</h2>
-                <p>Select the option that applies</p>
-                <div id="car-categories"></div>
-                <button id="previous">Previous</button>
-                <button id="continue-step3">Continue</button>
-            </div>
+        <div style="">
+        <div class="logo-div">
+            <img src="/assets/img/logo-t.svg" alt="logo" class="logo"/>
         </div>
+
+        <div  class="container">
+            <div class="text-div">
+                <h2 class="premium">Premium Maintenance <span>Membership</span></h2>
+                <p class="exclusive-text">
+                    Unlock exclusive benefits with our personalised car maintenance services.
+                </p>
+            </div>
+           
+
+            <div class="select-div">
+                <h3 class="select-text">Select the option that applies</h3>
+                
+                <div class="images-div">
+                    <div class="img-container">
+                        <img src="/assets/img/Frame 1000002388 (1).svg"/>
+                        <div class="text-container">
+                            <h6>For Myself</h6>
+                            <p>A membership plan for my own use</p>
+                        </div>
+
+                        <div class="round">
+                            <input type="radio" name="plan"  id="personal" value="personal" />
+                            <label for="personal"></label>
+                          </div>
+                        
+                    </div>
+
+                    <div class="img-container">
+                        <img src="/assets/img/Illustration.svg"/>
+                        <div class="text-container">
+                            <h6>For Friend /Family</h6>
+                            <p>Gift a premium car care membership experience</p>
+                        </div>
+
+                        <div class="round">
+                            <input type="radio" name="plan" id="friend"  value="friend"/>
+                            <label for="friend"></label>
+                          </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="continue-div">
+                <a href="./page2.html">
+                    <button disabled class="continue-button" id="button1">Continue</button>
+                </a>
+            </div>
+           
+
+            <div class="progress">
+                <div class="green"></div>
+            </div>
+            
+        </div>
+
+    </div>
         <?php
         return ob_get_clean();
     }

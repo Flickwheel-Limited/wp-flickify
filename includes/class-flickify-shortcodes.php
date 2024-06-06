@@ -38,7 +38,7 @@ class Flickify_Shortcodes {
                                     </div>
 
                                     <div class="round">
-                                        <input type="radio" name="plan"  id="personal" value="personal" />
+                                        <input type="radio" name="plan"  id="personal" value="1" />
                                         <label for="personal"></label>
                                     </div>
                                     
@@ -52,7 +52,7 @@ class Flickify_Shortcodes {
                                     </div>
 
                                     <div class="round">
-                                        <input type="radio" name="plan" id="friend"  value="friend"/>
+                                        <input type="radio" name="plan" id="friend"  value="2"/>
                                         <label for="friend"></label>
                                     </div>
                                 </div>

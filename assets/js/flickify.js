@@ -72,7 +72,7 @@ jQuery(document).ready(function($) {
     // Function to load car categories from the API
     function loadCarCategories(slug) {
         $.ajax({
-            url: 'https://gsjkatweqa.sharedwithexpose.com/api/v2/press/flickify/step_two/' + slug,
+            url: 'https://3po5vizq9z.sharedwithexpose.com/api/v2/press/flickify/step_two/' + slug,
             method: 'GET',
             success: function(response) {
                 if (response.status) {

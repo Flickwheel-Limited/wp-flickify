@@ -1,22 +1,25 @@
 jQuery(document).ready(function($) {
+
+    // Function to get query parameter value by name
     function getQueryParam(param) {
         var urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(param);
     }
 
+    // Get the 'id' query parameter from the URL
     var slug = getQueryParam('id');
 
+    // If 'id' parameter is present in the URL, load categories and adjust steps
     if (slug) {
-        // If slug is present in the URL, load the categories
         loadCarCategories(slug);
         $('#step1').hide();
         $('#step2').hide();
         $('#step3').show();
     }
 
+    // Handle first step form submission
     $('#flickify-step1-form').on('submit', function(e) {
         e.preventDefault();
-
         var membership_option = $('input[name="membership_option"]:checked').val();
         if (!membership_option) {
             alert('Please select an option');
@@ -27,14 +30,13 @@ jQuery(document).ready(function($) {
         $('#step2').show();
     });
 
+    // Handle second step form submission
     $('#flickify-step2-form').on('submit', function(e) {
         e.preventDefault();
-
-        var membership_option = $('input[name="membership_option"]:checked').val();
         var formData = {
             action: 'flickify_submit_form',
             security: flickifyAjax.nonce,
-            membership_option: membership_option,
+            membership_option: $('input[name="membership_option"]:checked').val(),
             first_name: $('input[name="first_name"]').val(),
             last_name: $('input[name="last_name"]').val(),
             phone: $('input[name="phone"]').val(),
@@ -49,7 +51,7 @@ jQuery(document).ready(function($) {
                 console.log(response);
                 if (response.success) {
                     slug = response.data.data.slug;
-                    // Update the URL with the slug
+                    // Update the URL with the new 'id' parameter
                     var newUrl = window.location.pathname + '?id=' + slug;
                     window.history.pushState({ path: newUrl }, '', newUrl);
                     loadCarCategories(slug);
@@ -60,6 +62,7 @@ jQuery(document).ready(function($) {
         });
     });
 
+    // Function to load car categories from the API
     function loadCarCategories(slug) {
         $.ajax({
             url: 'https://gsjkatweqa.sharedwithexpose.com/api/v2/press/flickify/step_two/' + slug,
@@ -89,11 +92,13 @@ jQuery(document).ready(function($) {
         });
     }
 
+    // Handle the 'Previous' button click to go back to step 2
     $('#previous').on('click', function() {
         $('#step3').hide();
         $('#step2').show();
     });
 
+    // Handle the 'Continue' button click in step 3
     $('#continue-step3').on('click', function() {
         var car_category = $('input[name="car_category"]:checked').val();
         if (!car_category) {
@@ -103,69 +108,16 @@ jQuery(document).ready(function($) {
 
         // Handle the next step submission or navigation
     });
+
+    // Enable buttons based on radio selection
+    function enableButtonOnSelection(button, radioGroupName) {
+        $(`input[name="${radioGroupName}"]`).on('change', function() {
+            button.disabled = !$(this).is(':checked');
+        });
+    }
+
+    enableButtonOnSelection(document.getElementById('button1'), 'plan');
+    enableButtonOnSelection(document.getElementById('button2'), 'cars');
+    enableButtonOnSelection(document.getElementById('button3'), 'membership');
+    enableButtonOnSelection(document.getElementById('button4'), 'payment');
 });
-
-const firstButton = document.getElementById('button1')
-const secondButton = document.getElementById('button2')
-const thirdButton = document.getElementById('button3')
-const fourButton = document.getElementById('button4')
-
-const plans = document.getElementsByName("plan")
-const cars = document.getElementsByName("cars")
-const membership = document.getElementsByName("membership")
-const payment = document.getElementsByName("payment")
-
-
-
-const plansRadioHanlder = ()=>{
-    for(i=0 ; i<plans.length; i++){
-        if(plans[i].checked===true){
-            firstButton.disabled =false
-        }
-    }
-}
-
-    for(i=0 ;i<plans.length; i++){
-        plans[i].addEventListener('click', plansRadioHanlder)
-
-    }
-
-    window.addEventListener('load' , plansRadioHanlder )
-
-    const carsRadioHanlder = ()=>{
-        for(i=0 ; i<cars.length; i++){
-            if(cars[i].checked===true){
-                secondButton.disabled =false
-            }
-        }
-    }
-    
-        for(i=0 ;i<cars.length; i++){
-            cars[i].addEventListener('click', carsRadioHanlder)
-    
-        }
-
-        window.addEventListener('load' , carsRadioHanlder )
-
-
-        const membershipHanlder = ()=>{
-            for(i=0 ; i<membership.length; i++){
-                if(membership[i].checked===true){
-                    thirdButton.disabled =false
-                }
-            }
-        }
-    
-        
-        for(i=0 ;i<membership.length; i++){
-                membership[i].addEventListener('click', membershipHanlder)
-               
-        }
-
-
-
-        for(i=0 ;i<payment.length; i++){
-            payment[i].addEventListener('click', ()=>{
-                    fourButton.disabled =false
-           
-    })}

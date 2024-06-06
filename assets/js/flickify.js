@@ -20,25 +20,28 @@ jQuery(document).ready(function($) {
     // Handle first step form submission
     $('#flickify-step1-form').on('submit', function(e) {
         e.preventDefault();
-        var membership_option = $('input[name="membership_option"]:checked').val();
-        if (!membership_option) {
-            alert('Please select an option');
-            return;
-        }
-
         $('#step1').hide();
         $('#step2').show();
+        updateProgressBar();
     });
 
+    // Handle the 'Previous' button click to go back to step 2
+    $('#previous-button1').on('click', function() {
+        $('#step2').hide();
+        $('#step1').show();
+        updateProgressBar();
+    });
+    
     // Handle second step form submission
     $('#flickify-step2-form').on('submit', function(e) {
         e.preventDefault();
         var formData = {
             action: 'flickify_submit_form',
             security: flickifyAjax.nonce,
-            membership_option: $('input[name="membership_option"]:checked').val(),
-            first_name: $('input[name="first_name"]').val(),
-            last_name: $('input[name="last_name"]').val(),
+            membership_option: $('input[name="plan"]:checked').val(),
+            // membership_option: $('input[name="membership_option"]:checked').val(),
+            first_name: $('input[name="firstName"]').val(),
+            last_name: $('input[name="lastName"]').val(),
             phone: $('input[name="phone"]').val(),
             email: $('input[name="email"]').val()
         };
@@ -60,6 +63,10 @@ jQuery(document).ready(function($) {
                 }
             }
         });
+
+        $('#step2').hide();
+        $('#step3').show();
+        updateProgressBar();
     });
 
     // Function to load car categories from the API
@@ -93,21 +100,47 @@ jQuery(document).ready(function($) {
     }
 
     // Handle the 'Previous' button click to go back to step 2
-    $('#previous').on('click', function() {
+    $('#previous-button2').on('click', function() {
         $('#step3').hide();
         $('#step2').show();
+        updateProgressBar();
     });
 
     // Handle the 'Continue' button click in step 3
-    $('#continue-step3').on('click', function() {
-        var car_category = $('input[name="car_category"]:checked').val();
-        if (!car_category) {
-            alert('Please select a car category');
-            return;
-        }
-
-        // Handle the next step submission or navigation
+    $('#flickify-step3-form').on('submit', function(e) {
+        e.preventDefault();
+        $('#step3').hide();
+        $('#step4').show();
+        updateProgressBar();
     });
+
+     // Handle the 'Previous' button click to go back to step 3
+     $('#previous-button3').on('click', function() {
+        $('#step4').hide();
+        $('#step3').show();
+        updateProgressBar();
+    }); 
+
+    // Handle the 'Continue' button click in step 4
+     $('#button3').on('click', function() {
+        $('#step4').hide();
+        $('#step5').show();
+        updateProgressBar();
+    }); 
+
+     // Handle the 'Previous' button click to go back to step 4
+     $('#previous-button4').on('click', function() {
+        $('#step5').hide();
+        $('#step4').show();
+        updateProgressBar();
+    }); 
+
+    // Handle the 'Make Payment' button click in step 5
+     $('#button4').on('click', function() {
+        $('#step5').hide();
+        $('#step1').show();
+        updateProgressBar();
+    }); 
 
     // Enable buttons based on radio selection
     function enableButtonOnSelection(button, radioGroupName) {
@@ -120,4 +153,40 @@ jQuery(document).ready(function($) {
     enableButtonOnSelection(document.getElementById('button2'), 'cars');
     enableButtonOnSelection(document.getElementById('button3'), 'membership');
     enableButtonOnSelection(document.getElementById('button4'), 'payment');
-});
+
+    const number = $('#number');
+    const email = $('#email');
+    const firstname = $('#firstName');
+    const lastname = $('#lastname');
+    
+    const inputContainer = $('.input-container');
+    const inputButton = $('#input-button');
+    
+    function validate() {
+        if (firstname.val() !== "" && email.val() !== "" && lastname.val() !== "" && number.val() !== "") {
+            inputButton.prop('disabled', false);
+        } else {
+            inputButton.prop('disabled', true);
+        }
+    }
+    inputContainer.on('input', validate);
+
+    // function to update the progress bar
+    const maxSteps = 5;
+    const greenBar = $('.green');
+    
+    function updateProgressBar() {
+        let currentStep = 0;
+        for (let i = 1; i <= maxSteps; i++) {
+            if ($('#step' + i).is(':visible')) {
+                currentStep = i;
+                break;
+            }
+        }
+        var percentage = (currentStep / maxSteps) * 100; // Reaches 100% on the 5th step
+        greenBar.css('width', percentage + '%');
+    }
+    
+    // Initialize progress bar
+    updateProgressBar();
+})

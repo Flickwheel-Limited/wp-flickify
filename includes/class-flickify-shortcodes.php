@@ -138,40 +138,8 @@ class Flickify_Shortcodes {
                             <p>Select the option that applies</p>
                         </div>
                         <form id="flickify-step3-form">
-                                <div class="select-container">
-                                    <div class="car-div">
-                                        <img src="<?php echo $plugin_url; ?>assets/img/car1.jpg"/>
-                                        <div class="rounded">
-                                            <input type="radio" id="compact" name="cars" value="compact" />
-                                            <label for="compact"></label>
-                                        </div>
-                                        <h5>Compact</h5>
-                                        <p>Small, easy-to-park, and fuel-efficient. Ideal for city driving and tight spaces.</p>
-                                        <p>Eg.Toyota Corolla, Honda Civic</p>
-
-                                    </div>
-
-                                    <div class="car-div">
-                                        <img src="<?php echo $plugin_url; ?>assets/img/car2.jpg"/>
-                                        <div class="rounded">
-                                            <input type="radio" id="midsize" name="cars" value="midsize" />
-                                            <label for="midsize"></label>
-                                        </div>
-                                        <h5>Mid-size</h5>
-                                        <p>A bit larger with a good balance of space and efficiency, great for both city and highway driving.</p>
-                                        <p>Eg.Toyota Camry, Honda Accord</p>
-                                    </div>
-
-                                    <div class="car-div">
-                                        <img src="<?php echo $plugin_url; ?>assets/img/car3.jpg"/>
-                                        <div class="rounded">
-                                            <input type="radio" id="suv" value="suv" name="cars"/>
-                                            <label for="suv"></label>
-                                        </div>
-                                        <h5>SUVs and Crossover</h5>
-                                        <p>Bigger, robust vehicles providing additional space and increased comfort for families.</p>
-                                        <p>Eg. Toyota RAV4, Honda CR-V</p>
-                                    </div>
+                                <div id="car-categories" class="select-container">
+                                   
                                 </div>
                                 
                                 <div class="buttons">

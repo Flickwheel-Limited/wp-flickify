@@ -39,7 +39,6 @@ jQuery(document).ready(function($) {
             action: 'flickify_submit_form',
             security: flickifyAjax.nonce,
             membership_option: $('input[name="plan"]:checked').val(),
-            // membership_option: $('input[name="membership_option"]:checked').val(),
             first_name: $('input[name="firstName"]').val(),
             last_name: $('input[name="lastName"]').val(),
             phone: $('input[name="phone"]').val(),
@@ -51,7 +50,6 @@ jQuery(document).ready(function($) {
             method: 'POST',
             data: formData,
             success: function(response) {
-                console.log(response);
                 if (response.success) {
                     slug = response.data.data.slug;
                     // Update the URL with the new 'id' parameter
@@ -63,16 +61,12 @@ jQuery(document).ready(function($) {
                 }
             }
         });
-
-        $('#step2').hide();
-        $('#step3').show();
-        updateProgressBar();
     });
 
     // Function to load car categories from the API
     function loadCarCategories(slug) {
         $.ajax({
-            url: 'https://3po5vizq9z.sharedwithexpose.com/api/v2/press/flickify/step_two/' + slug,
+            url: 'https://api.flickauto.com/api/v2/press/flickify/step_two/' + slug,
             method: 'GET',
             success: function(response) {
                 if (response.status) {
@@ -80,18 +74,23 @@ jQuery(document).ready(function($) {
                     var categoriesHtml = '';
                     categories.forEach(function(category) {
                         categoriesHtml += `
-                            <div>
-                                <img src="${category.data.image}" alt="${category.car_type}">
-                                <label>
-                                    <input type="radio" name="car_category" value="${category.id}">
-                                    ${category.car_type}
-                                </label>
+                            <div class="car-div">
+                                <img src="${category.data.image}" alt="${category.car_type}" />
+                                <div class="rounded">
+                                    <input type="radio" id="${category.car_type}" name="cars" value="${category.id}" />
+                                    <label for="${category.car_type}"></label>
+                                </div>
+                                <h5>${category.car_type}</h5>
+                                <p>${category.data.description}</p>
+                                <p>Eg. ${category.data.samples}</p>
+
                             </div>
                         `;
                     });
                     $('#car-categories').html(categoriesHtml);
                     $('#step2').hide();
                     $('#step3').show();
+                    updateProgressBar();
                 } else {
                     alert(response.message);
                 }

@@ -6,7 +6,8 @@ class Flickify_Shortcodes {
         add_shortcode('flickify_form', array(__CLASS__, 'render_form'));
     }
 
-    public static function render_form() {
+    public static function render_form()
+    {
         $plugin_url = FLICKIFY_URL;
         ob_start();
         ?>
@@ -17,18 +18,17 @@ class Flickify_Shortcodes {
                 </div>
 
                 <form id="flickify-step1-form">
-                    <div  class="container">
+                    <div class="container">
                         <div class="text-div">
                             <h2 class="premium">Premium Maintenance <span>Membership</span></h2>
                             <p class="exclusive-text">
                                 Unlock exclusive benefits with our personalised car maintenance services.
                             </p>
                         </div>
-                    
 
                         <div class="select-div">
                             <h3 class="select-text">Select the option that applies</h3>
-                            
+
                             <div class="images-div">
                                 <div class="img-container">
                                     <img src="<?php echo $plugin_url; ?>assets/img/Frame 1000002388 (1).svg" alt="Myself"/>
@@ -38,10 +38,10 @@ class Flickify_Shortcodes {
                                     </div>
 
                                     <div class="round">
-                                        <input type="radio" name="plan"  id="personal" value="1" />
+                                        <input type="radio" name="plan" id="personal" value="1" />
                                         <label for="personal"></label>
                                     </div>
-                                    
+
                                 </div>
 
                                 <div class="img-container">
@@ -52,7 +52,7 @@ class Flickify_Shortcodes {
                                     </div>
 
                                     <div class="round">
-                                        <input type="radio" name="plan" id="friend"  value="2"/>
+                                        <input type="radio" name="plan" id="friend" value="2"/>
                                         <label for="friend"></label>
                                     </div>
                                 </div>
@@ -62,12 +62,11 @@ class Flickify_Shortcodes {
                         <div class="continue-div">
                             <button disabled class="continue-button" id="button1">Continue</button>
                         </div>
-                    
 
                         <div class="progress">
                             <div class="green"></div>
                         </div>
-                        
+
                     </div>
                 </form>
             </div>
@@ -82,20 +81,20 @@ class Flickify_Shortcodes {
                         <h3 class="premium">Please Provide Your Recipient Personal Info</h3>
                         <p>Tell us more about your family or friend</p>
                     </div>
-                    
+
                     <form id="flickify-step2-form">
                         <div class="input-container">
                             <div class="input-div">
                                 <label for="firstName">First Name</label>
                                 <input type="text" value="" placeholder="e.g Henry" name="firstName" id="firstName"/>
-                            </div> 
+                            </div>
 
                             <div class="input-div">
                                 <label for="lastname">Last Name</label>
                                 <input id="lastname" name="lastName" type="text" placeholder="e.g Robertson"/>
                             </div>
 
-                            <div class="number-code" >
+                            <div class="number-code">
                                 <div class="code-container">
                                     <label class="code-title">Code</label>
                                     <div class="code-div">
@@ -106,7 +105,7 @@ class Flickify_Shortcodes {
                                 <div class="input-div" id="number-input">
                                     <label for="phone">Phone Number</label>
                                     <input id="phone" name="phone" type="tel" placeholder="08139236339" />
-                                </div> 
+                                </div>
                             </div>
 
                             <div class="input-div">
@@ -121,7 +120,7 @@ class Flickify_Shortcodes {
                         </div>
                     </form>
                     <div class="progress">
-                    <div class="green"></div>
+                        <div class="green"></div>
                     </div>
                 </div>
             </div>
@@ -131,27 +130,24 @@ class Flickify_Shortcodes {
                     <img src="<?php echo $plugin_url; ?>assets/img/logo-t.svg" alt="logo" class="logo"/>
                 </div>
 
-                
-                    <div class="container">
-                        <div class="text-div">
-                            <h2 class="">Select the <span>category</span> that best describes your car</h2>
-                            <p>Select the option that applies</p>
-                        </div>
-                        <form id="flickify-step3-form">
-                                <div id="car-categories" class="select-container">
-                                   
-                                </div>
-                                
-                                <div class="buttons">
-                                    <button type="button" class=" button" id="previous-button2">Previous</button>
-                                    <button disabled type="submit" class="button next-button" id="button2">Continue</button>
-                                </div>
-                        </form>
-                        <div class="progress">
-                            <div class="green"></div>
-                        </div>
+                <div class="container">
+                    <div class="text-div">
+                        <h2 class="">Select the <span>category</span> that best describes your car</h2>
+                        <p>Select the option that applies</p>
                     </div>
-                
+                    <form id="flickify-step3-form">
+                        <div id="car-categories" class="select-container">
+                        </div>
+
+                        <div class="buttons">
+                            <button type="button" class="button" id="previous-button2">Previous</button>
+                            <button disabled type="submit" class="button next-button" id="button2">Continue</button>
+                        </div>
+                    </form>
+                    <div class="progress">
+                        <div class="green"></div>
+                    </div>
+                </div>
             </div>
 
             <div id="step4" style="display: none;" class="division">
@@ -166,55 +162,7 @@ class Flickify_Shortcodes {
                             <p>Select Membership</p>
                         </div>
 
-
                         <div class="select-container">
-                            <div class="illustration-div">
-                                <div class="membership">
-                                    <h5>ODOGWU</h5>
-                                    <p>starting from <span> ₦ 9,800</span></p>
-
-                                    <p>Elite Autocare Membership</p>
-                                </div>
-                                <img src="<?php echo $plugin_url; ?>assets/img/Layer 2.svg" />
-
-                                <div class="rounded">
-                                    <input type="radio" id="Odogwu" value="Odogwu" name="membership" />
-                                    <label for="Odogwu"></label>
-                                </div>
-                            </div>
-
-                            <div class="illustration-div">
-                                <div class="Popular-div">
-                                    <img src="<?php echo $plugin_url; ?>assets/img/medal-star.png" alt="star-img" />
-                                    <h5>Most Popular</h5>
-                                </div>
-                                <div class="membership">
-                                    <h5>EKO</h5>
-                                    <p>starting from <span>₦ 8,800</span></p>
-
-                                    <p>Redefined Autocare Peace</p>
-                                </div>
-                                <img src="<?php echo $plugin_url; ?>assets/img/woman.svg" />
-
-                                <div class="rounded">
-                                    <input type="radio" id="Eko" value="Eko" name="membership" />
-                                    <label for="Eko"></label>
-                                </div>
-                            </div>
-
-                            <div class="illustration-div">
-                                <div class="membership">
-                                    <h5>ASO ROCK</h5>
-                                    <p>starting from <span>₦ 6,200</span></p>
-
-                                    <p>Essential Autocare experience</p>
-                                </div>
-                                <img src="<?php echo $plugin_url; ?>assets/img/Layer_1.svg" />
-                                <div class="rounded">
-                                    <input type="radio" id="Aso" value="Aso" name="membership" />
-                                    <label for="Aso"></label>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="buttons">
@@ -232,58 +180,6 @@ class Flickify_Shortcodes {
 
                 <section class="section2">
                     <div class="plan-details">
-                        <div class="details-heading">
-                            <h2>Eko</h2>
-                            <p class="price">₦9,172/mo</p>
-                            <p class="Redefined">Redefined Car Care Peace</p>
-                        </div>
-
-                        <div class="primary-benefits">
-                            <h5>Primary Benefits</h5>
-                            <p>Vehicle maintenance coverage up to
-                                #300,000 thousand per year
-                            </p>
-                            <p>2 Semi-synthetic or 2 Synthetic oil & filter
-                                changes per year
-                            </p>
-                            <p>1 Premium wiper blade replacement per year</p>
-                            <p>Spark plugs servicing/replacement
-                                once a year
-                            </p>
-                            <p>1 Brake light bulbs replacement per year</p>
-                            <p>Air filter servicing/replacement</p>
-                            <p>Cabin filter servicing/replacement</p>
-                        </div>
-
-                        <div class="secondary">
-                            <h5>Secondary Benefits</h5>
-                            <p>1 Wheel alignment, tyre pressure setting, gauge
-                                and rotation per year*
-                            </p>
-                            <p>Premium roadside assistance (local towing)
-                                once a year
-                            </p>
-                        </div>
-
-                        <div class="soft">
-                            <h5>Soft Benefits</h5>
-                            <p>Access to 35 workshops conveniently
-                                located near you
-                            </p>
-                            <p>Monthly maintenance routine Information for your car
-                            </p>
-                            <p>5% discount on car repair loan Offers</p>
-                            <p>2 cooling system inspection per year</p>
-                            <p>Smog checks during car servicing</p>
-                            <p>2% discount on VIN purchase</p>
-                            <p>Brake system inspection</p>
-                        </div>
-
-                        <div class="document">
-                            <h5>Car Document Manager</h5>
-                            <p>Vehicle licence renewal </p>
-                            <p>Third-party Insurance renewal</p>
-                        </div>
                     </div>
                 </section>
             </div>
@@ -303,14 +199,14 @@ class Flickify_Shortcodes {
                         <h5>Your Plan</h5>
 
                         <div class="plan-section">
-                            <div class="selected-details">  
+                            <div class="selected-details">
                                 <div class="membership">
                                     <h5>ASO ROCK</h5>
                                     <p>starting from <span>₦ 6,200</span></p>
-                    
+
                                     <p>Essential Autocare experience</p>
                                 </div>
-                                <img src="<?php echo $plugin_url; ?>assets/img/Layer_1.svg"/>  
+                                <img src="<?php echo $plugin_url; ?>assets/img/Layer_1.svg"/>
                             </div>
 
                             <div class="details-table">
@@ -343,10 +239,10 @@ class Flickify_Shortcodes {
                                 </div>
 
                                 <div class="round">
-                                    <input type="radio"  id="monthly" name="payment" />
+                                    <input type="radio" id="monthly" name="payment" />
                                     <label for="monthly"></label>
                                 </div>
-                                
+
                             </div>
 
                             <div class="payment-method">
@@ -360,7 +256,7 @@ class Flickify_Shortcodes {
                                     <img src="<?php echo $plugin_url; ?>assets/img/magic-star.svg"/>
                                     <p>Save 6%</p>
                                 </div>
-                                
+
                                 <div class="round">
                                     <input type="radio" id="quarterly" name="payment" />
                                     <label for="quarterly"></label>
@@ -378,7 +274,7 @@ class Flickify_Shortcodes {
                                         <p>Save 12%</p>
                                     </div>
                                 </div>
-                                
+
                                 <div class="round">
                                     <input type="radio" id="yearly" name="payment" />
                                     <label for="yearly"></label>
@@ -388,13 +284,11 @@ class Flickify_Shortcodes {
                     </div>
 
                     <div class="buttons">
-                    <button type="button" class="button" id="previous-button4">
-                                Back
-                            </button>
-                        <button disabled type="button" class="button next-button"  id="button4">Make Payment</button>
-                        <!-- class="payment-button" -->
+                        <button type="button" class="button" id="previous-button4">
+                            Back
+                        </button>
+                        <button disabled type="button" class="button next-button" id="button4">Make Payment</button>
                     </div>
-                    
                 </div>
             </div>
         </div>

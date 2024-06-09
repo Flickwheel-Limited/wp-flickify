@@ -200,6 +200,11 @@ button:disabled {
     opacity: 1;
 }
 
+.illustration-div.selected .rounded label {
+    background-color: var(--pink);
+    border-color: var(--pink);
+}
+
 /* Progress Bar */
 
 .progress {

@@ -60,6 +60,12 @@ jQuery(document).ready(function($) {
             email: $('input[name="email"]').val()
         };
 
+        // Change the innerHTML of the input-button to 'Processing...' and disable it
+        let inputButton = $('#input-button');
+        inputButton.html('Processing...');
+        inputButton.prop('disabled', true);
+        $('#previous-button1').prop('disabled', true);
+
         $.ajax({
             url: flickifyAjax.ajaxurl,
             method: 'POST',
@@ -74,16 +80,27 @@ jQuery(document).ready(function($) {
                 } else {
                     alert(response.data.message);
                 }
+                // Reset the button state after AJAX call
+                inputButton.html('Continue');
+                inputButton.prop('disabled', false);
+                $('#previous-button1').prop('disabled', false);
             }
         });
     });
 
     // Function to load car categories from the API
     function loadCarCategories(slug) {
+        // Display loading spinner
+        $('#loading-spinner').show();
+
         $.ajax({
             url: 'https://api.flickauto.com/api/v2/press/flickify/step_two/' + slug,
             method: 'GET',
+        
             success: function(response) {
+                // Hide loading spinner
+                $('#loading-spinner').hide();
+
                 if (response.status) {
                     var categories = response.data.categories;
                     var categoriesHtml = '';
@@ -111,6 +128,11 @@ jQuery(document).ready(function($) {
                 } else {
                     alert(response.message);
                 }
+            },
+            error: function() {
+                // Hide loading spinner and handle error
+                $('#loading-spinner').hide();
+                alert('Failed to load car categories. Please try again.');
             }
         });
     }
@@ -141,10 +163,14 @@ jQuery(document).ready(function($) {
 
     // Function to load membership plans from the API
     function loadMembershipPlans(categoryId) {
+        $('#loading-spinner2').show();
+
         $.ajax({
             url: 'https://api.flickauto.com/api/v2/press/flickify/car_type/' + categoryId + '/scheme',
             method: 'GET',
             success: function(response) {
+                $('#loading-spinner2').hide();
+
                 if (response.data) {
                     var plans = response.data;
                     var plansHtml = '';
@@ -192,6 +218,13 @@ jQuery(document).ready(function($) {
                 } else {
                     alert('No membership plans found for this category.');
                 }
+                
+                
+            },
+            error: function() {
+                // Hide loading spinner and handle error
+                $('#loading-spinner2').hide();
+                alert('Failed to load membership plans. Please try again.');
             }
         });
     }
@@ -204,10 +237,19 @@ jQuery(document).ready(function($) {
 
     // Function to load scheme benefits from the API
     function loadSchemeBenefits(schemeSlug) {
+        $('#loading-spinner3').show();
+
+        let continueButton = $('#button3');
+        continueButton.html('Loading details...');
+        continueButton.prop('disabled', true);
+        $('#previous-button3').prop('disabled', true);
+
         $.ajax({
             url: 'https://api.flickauto.com/api/v2/press/flickify/scheme/' + schemeSlug + '/benefits',
             method: 'GET',
             success: function(response) {
+                $('#loading-spinner3').hide();
+
                 if (response) {
                     // Handle loading of scheme benefits
                     console.log(response); // Display benefits for debugging
@@ -237,6 +279,15 @@ jQuery(document).ready(function($) {
                 } else {
                     alert('No benefits found for this scheme.');
                 }
+
+                continueButton.html('Continue');
+                continueButton.prop('disabled', false);
+                $('#previous-button3').prop('disabled', false);
+            },
+            error: function() {
+                // Hide loading spinner and handle error
+                $('#loading-spinner3').hide();
+                alert('Failed to load scheme benefits plan. Please try again.');
             }
         });
     }

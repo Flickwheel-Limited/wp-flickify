@@ -137,6 +137,15 @@ class Flickify_Shortcodes {
                     </div>
                     <form id="flickify-step3-form">
                         <div id="car-categories" class="select-container">
+                            <div id="loading-spinner" style="display: none; width: 100%; height: 100%; padding: 6.9em 0;">
+                                <div style="width: 100px; height: 100px; margin: auto;">
+                                    <svg width="100" height="100" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                                        <circle cx="50" cy="50" fill="none" stroke="#3498db" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138">
+                                            <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
+                                        </circle>
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="buttons">
@@ -163,6 +172,15 @@ class Flickify_Shortcodes {
                         </div>
 
                         <div class="select-container">
+                            <div id="loading-spinner2" style="display: none; width: 100%; height: 100%; padding: 4em 0;">
+                                    <div style="width: 100px; height: 100px; margin: auto;">
+                                        <svg width="100" height="100" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                                            <circle cx="50" cy="50" fill="none" stroke="#3498db" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138">
+                                                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
+                                            </circle>
+                                        </svg>
+                                    </div>
+                                </div>
                         </div>
 
                         <div class="buttons">
@@ -180,7 +198,15 @@ class Flickify_Shortcodes {
 
                 <section class="section2">
                     <div class="plan-details">
-                    </div>
+                        <div id="loading-spinner3" style="display: none; width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+                            <div style="width: 100px; height: 100px; margin: auto; position: absolute; top: 0; bottom: 0; left: 0; right: 0;">
+                                <svg width="50" height="50" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                                    <circle cx="50" cy="50" fill="none" stroke="#3498db" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138">
+                                        <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
+                                    </circle>
+                                </svg>
+                            </div>
+                        </div>
                 </section>
             </div>
 

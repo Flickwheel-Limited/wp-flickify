@@ -451,62 +451,57 @@ button:disabled {
     width: 90%;
     margin: 0em auto;
     text-align: center;
-
-
 }
 
 .side-div>img {
     width: 30%;
-
 }
 
 .side-div>p {
     font-size: 0.8rem;
     color: var(--black);
-
 }
 
 /* side section with a picked plan */
 
 .plan-details {
     color: var(--black);
-    padding: 1em;
+    padding: 0.5em;
 }
 
-.details-heading {
-    margin: 1.5em 0;
-    font-size: 1rem;
+.details-heading:not(:first-child) {
+    margin: 2em 0 0;
 }
 
 .details-heading>h2 {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
-.price {
+.details-heading.unlock-text {
+    font-size: 0.8rem;
+}
+/* .price {
     font-family: var(--machina);
-}
+} */
 
-.Redefined {
+/* .Redefined {
     color: #6FA1EB;
+} */
+
+.benefit-month {
+    margin-top: 1em;
 }
 
-.primary-benefits,
-.secondary,
-.soft,
-.document {
-    margin-top: 1.5em;
-    margin-bottom: 2em;
-
+.benefit-month > h5 {
+    font-weight: 600;
 }
 
-.primary-benefits>p,
-.secondary>p,
-.soft>p,
-.document>p {
+.benefit-month>p {
     border: 1px solid #E9ECF2;
-    padding: 0.5em;
+    padding: 0.2em 0.4em;
     border-radius: 7px;
-    margin: 1em 0;
+    margin: 1.2em 0;
     font-size: 0.8rem;
 }
 
@@ -1086,46 +1081,8 @@ button:disabled {
 
     /* side section with a picked plan */
 
-    .plan-details {
-        color: var(--black);
-        padding: 1em;
-    }
-
-    .details-heading {
-        margin: 1.5em 0;
-        font-size: 1rem;
-    }
-
-    .details-heading>h2 {
-        font-size: 1.2rem;
-    }
-
-    .price {
-        font-family: var(--machina);
-    }
-
-    .Redefined {
-        color: #6FA1EB;
-    }
-
-    .primary-benefits,
-    .secondary,
-    .soft,
-    .document {
-        margin-top: 1.5em;
-        margin-bottom: 2em;
-
-    }
-
-    .primary-benefits>p,
-    .secondary>p,
-    .soft>p,
-    .document>p {
-        border: 1px solid #E9ECF2;
-        padding: 0.5em;
-        border-radius: 7px;
-        margin: 1em 0;
-        font-size: 0.8rem;
+    .benefit-month>p {
+        margin: 0.5em 0;
     }
 
 

@@ -207,6 +207,7 @@ class Flickify_Shortcodes {
                                 </svg>
                             </div>
                         </div>
+                    </div>
                 </section>
             </div>
 

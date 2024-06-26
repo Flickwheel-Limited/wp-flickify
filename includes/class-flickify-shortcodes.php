@@ -113,6 +113,37 @@ class Flickify_Shortcodes {
                                 <input id="email" name="email" type="text" placeholder="example@gmail.com"/>
                             </div>
                         </div>
+                        <h4 style="font-weight: 600" >Car Details</h4>
+
+                        <div class="car-type-container">
+                            <div class="input-div">
+                                <label for="make">Make</label>
+
+                                <select id="make" name="make" class="">
+                                  <option value="" selected>e.g Lexus</option>
+                                  <option value="toyota">Toyota</option>
+                                  <option value="CA">Camry</option>
+                                </select>
+                            </div>
+                            <div class="input-div">
+                                <label for="model">Model</label>
+                                <select id="model" name="model" class="">
+                                  <option value="" selected>e.g RX 350</option>
+                                  <option value="RX 450">RX 450</option>
+                                  <option value="RX 550">RX 550</option>
+                                </select>
+                            </div>
+                            <div class="input-div">
+                                <label for="year">Year</label>
+                                <select id="year" name="year" class="">
+                                  <option value="" selected>e.g 2013</option>
+                                  <option value="2014">2014</option>
+                                  <option value="2015">2015</option>
+                                  <option value="2016">2016</option>
+                                  <option value="2017">2017</option>
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="buttons">
                             <button type="button" class="button" id="previous-button1">Previous</button>
@@ -218,94 +249,57 @@ class Flickify_Shortcodes {
 
                 <div class="summary-container">
                     <div class="summary">
-                        <h2>Membership Summary</h2>
-                        <p>Premium Car Maintenance</p>
-                    </div>
-
-                    <div class="selected-section">
-                        <h5>Your Plan</h5>
-
-                        <div class="plan-section">
-                            <div class="selected-details">
-                                <div class="membership">
-                                    <h5>ASO ROCK</h5>
-                                    <p>starting from <span>₦ 6,200</span></p>
-
-                                    <p>Essential Autocare experience</p>
-                                </div>
-                                <img src="<?php echo $plugin_url; ?>assets/img/Layer_1.svg"/>
-                            </div>
-
-                            <div class="details-table">
-                                <h4>Plan Details</h4>
-                                <div class="detail">
-                                    <p>Car Category</p>
-                                    <p class="value">Compact</p>
-                                </div>
-                                <div class="detail">
-                                    <p>Maintenance Plan</p>
-                                    <p class="value">Aso Rock</p>
-                                </div>
-                                <div class="detail">
-                                    <p>For</p>
-                                    <p class="value">Self</p>
-                                </div>
-                            </div>
-                        </div>
+                        <h2>Select Payment</h2>
+                        <p class="summaryTypeCategory">{{Type of car (e.g) Toyota Camry 2019}} | {{Category (e.g) Compact car}}</p>
                     </div>
 
                     <div class="payment-section">
-                        <h2>Select Payment</h2>
-
-                        <div class="payment">
-
-                            <div class="payment-method">
-                                <div class="text-container">
-                                    <p>One Month</p>
-                                    <h6>9,800 / month</h6>
-                                </div>
-
-                                <div class="round">
-                                    <input type="radio" id="monthly" name="payment" />
-                                    <label for="monthly"></label>
-                                </div>
-
+                        <div class="payment-method">
+                            <div class="text-container">
+                                <p>Monthly</p>
+                                <h6>₦ <span class="payment-method-price">9,800</span> / month</h6>
                             </div>
 
-                            <div class="payment-method">
-                                <div class="text-container">
-                                    <p>3 Months</p>
-                                    <h6>9,167 / month</h6>
-                                    <p>27,500 billed every 3 months</p>
-                                </div>
+                            <div class="round">
+                                <input type="radio" id="monthly" name="payment" />
+                                <label for="monthly"></label>
+                            </div>
+
+                        </div>
+
+                        <div class="payment-method">
+                            <div class="text-container">
+                                <p>Quarterly</p>
+                                <h6>₦ <span class="payment-method-price">9,167</span> / month</h6>
+                                <p>₦ 27,500 billed every 3 months</p>
+                            </div>
+
+                            <div class="star-container">
+                                <img src="<?php echo $plugin_url; ?>assets/img/magic-star.svg"/>
+                                <p>Save 6%</p>
+                            </div>
+
+                            <div class="round">
+                                <input type="radio" id="quarterly" name="payment" />
+                                <label for="quarterly"></label>
+                            </div>
+                        </div>
+
+                        <div class="payment-method">
+                            <div class="text-container">
+                                <p>Annually</p>
+                                <h6>₦ <span class="payment-method-price">6,708</span> / month</h6>
+                                <p>₦ 80,500 billed every 12 months</p>
 
                                 <div class="star-container">
                                     <img src="<?php echo $plugin_url; ?>assets/img/magic-star.svg"/>
-                                    <p>Save 6%</p>
-                                </div>
-
-                                <div class="round">
-                                    <input type="radio" id="quarterly" name="payment" />
-                                    <label for="quarterly"></label>
+                                    <p>Save 12%</p>
                                 </div>
                             </div>
 
-                            <div class="payment-method">
-                                <div class="text-container">
-                                    <p>12 Months</p>
-                                    <h6>6,708 / month</h6>
-                                    <p>80,500 billed every 12 months</p>
-
-                                    <div class="star-container">
-                                        <img src="<?php echo $plugin_url; ?>assets/img/magic-star.svg"/>
-                                        <p>Save 12%</p>
-                                    </div>
-                                </div>
-
-                                <div class="round">
-                                    <input type="radio" id="yearly" name="payment" />
-                                    <label for="yearly"></label>
-                                </div>
+                            <div class="round">
+                                <input type="radio" id="yearly" name="payment" />
+                                <label for="yearly"></label>
                             </div>
                         </div>
                     </div>
@@ -315,6 +309,78 @@ class Flickify_Shortcodes {
                             Back
                         </button>
                         <button disabled type="button" class="button next-button" id="button4">Make Payment</button>
+                    </div>
+
+                    <div class="progress">
+                        <div class="green"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="step6" style="display: none;">
+                <div class="logo-div">
+                    <img src="<?php echo $plugin_url; ?>assets/img/logo-t.svg" alt="logo" class="logo"/>
+                </div>
+
+                <div class="summary-container2">
+                    <div class="summary">
+                        <h2>Membership Summary</h2>
+                    </div>
+
+                    <div>
+                        <div class="details-table">
+                            <h4>Plan Details</h4>
+                            <div class="detail">
+                                <p>Car Category</p>
+                                <p class="value">Compact</p>
+                            </div>
+                            <div class="detail">
+                                <p>Maintenance Plan</p>
+                                <p class="value">Aso Rock</p>
+                            </div>
+                            <div class="detail">
+                                <p>Payment Frequency</p>
+                                <p class="value">Quartely</p>
+                            </div>
+                            <div class="detail">
+                                <p>Car Type</p>
+                                <p class="value">Toyota Camry  2019</p>
+                            </div>
+                            <div class="detail">
+                                <p>Amount</p>
+                                <p class="value">₦ <span>9,125</span> / month</p>
+                            </div>
+                        </div>
+                        
+                        <div class="details-total-div">
+                            <p class="details-total">₦ <span class="total-number">27,500</span></p>
+                        </div>
+                     </div>
+
+                    <div class="buttons">
+                        <button type="button" class="button" id="previous-button5">
+                            Back
+                        </button>
+                        <button type="button" class="button next-button" id="button5">Make Payment</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="successfully" style="display: none;">
+                <div class="logo-div">
+                    <img src="<?php echo $plugin_url; ?>assets/img/logo-t.svg" alt="logo" class="logo"/>
+                </div>
+
+                <div class="successful-screen">
+                    <img src="<?php echo $plugin_url; ?>assets/img/carIllustration.svg" alt="successful"/>
+
+                    <h3>Smooth Rides Awaits</h3>
+                    <p>Congratulations! You've successfully secured a car membership maintenance plan to ensure smooth rides ahead</p>
+                    <div>
+                        <button type="button" class="button home" id="button6">
+                            Journey Home
+                        </button>
                     </div>
                 </div>
             </div>

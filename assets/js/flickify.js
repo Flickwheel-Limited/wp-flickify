@@ -80,12 +80,12 @@ jQuery(document).ready(function($) {
                 } else {
                     alert(response.data.message);
                 }
-                // Reset the button state after AJAX call
-                inputButton.html('Continue');
-                inputButton.prop('disabled', false);
-                $('#previous-button1').prop('disabled', false);
             }
         });
+        // Reset the button state after AJAX call
+        inputButton.html('Continue');
+                inputButton.prop('disabled', false);
+                $('#previous-button1').prop('disabled', false);
     });
 
     // Function to load car categories from the API
@@ -252,18 +252,20 @@ jQuery(document).ready(function($) {
 
                 if (response) {
                     // Handle loading of scheme benefits
-                    console.log(response); // Display benefits for debugging
+                    // console.log(response); // Display benefits for debugging
                     $('#button3').prop('disabled', false); // Enable the continue button
 
                     // Clear existing benefits
                     $('.plan-details').html('');
+
+                    $('.plan-details').append(`<h2 >{{Scheme}} Benefits</h2>`)
 
                     // Append new benefits
                     for (const level in response) {
                         const levelData = response[level];
                         let benefitsHtml = `
                             <div class="details-heading">
-                                <h2>${levelData.category}</h2>
+                                <h4>${levelData.category}</h4>
                                 <p class="unlock-text">${levelData.unlock_text}</p>
                             </div>
                         `;
@@ -300,8 +302,7 @@ jQuery(document).ready(function($) {
     });
 
     // Handle the 'Continue' button click in step 4
-    $('#flickify-step4-form').on('submit', function(e) {
-        e.preventDefault();
+    $('#button3').on('click', function(e) {
         $('#step4').hide();
         $('#step5').show();
         updateProgressBar();
@@ -317,6 +318,47 @@ jQuery(document).ready(function($) {
     // Handle the 'Make Payment' button click in step 5
     $('#button4').on('click', function() {
         $('#step5').hide();
+        $('#step6').show();
+        updateProgressBar();
+    });
+
+    // Handle the 'Previous' button click to go back to step 5
+    $('#previous-button5').on('click', function() {
+        $('#step6').hide();
+        $('#step5').show();
+        updateProgressBar();
+    });
+
+    // Handle the 'Make Payment' button click in step 6
+    $('#button5').on('click', function() {
+        $('#step6').hide();
+
+        console.log($('input[name="plan"]:checked').val())
+        if ($('input[name="plan"]:checked').val() === '2') {
+            console.log($('input[name="plan"]:checked').val())
+            giftSuccessfulHtml += `
+                    <img src="<?php echo $plugin_url; ?>assets/img/Isolation_Mode.svg" alt="successful"/>
+
+                    <h3>A Gift that Drives a Lifetime</h3>
+                    <p>Congratulations! you have successfully gifted someone 
+                    a car maintenance membership package. Download the app and track the gift</p>
+                    <div>
+                        <button type="button" class="button home" id="button6">
+                            Journey Home
+                        </button>
+                    </div>
+                        `;
+
+            $('.successful-screen').html(giftSuccessfulHtml);
+        }
+        $('#successfully').show();
+
+        updateProgressBar();
+    });
+
+    // Handle the 'Journey home' button click in successful screen
+    $('#successfully').on('click', function() {
+        $('#successfully').hide();
         $('#step1').show();
         updateProgressBar();
     });
@@ -337,7 +379,10 @@ jQuery(document).ready(function($) {
     const email = $('#email');
     const firstname = $('#firstName');
     const lastname = $('#lastname');
-
+    const make = $('#make').find(':selected');
+    const model = $('#model')
+    const year = $('#year')
+    
     const inputContainer = $('.input-container');
     const inputButton = $('#input-button');
 
@@ -351,7 +396,7 @@ jQuery(document).ready(function($) {
     inputContainer.on('input', validate);
 
     // function to update the progress bar
-    const maxSteps = 5;
+    const maxSteps = 6;
     const greenBar = $('.green');
 
     function updateProgressBar() {

@@ -32,10 +32,13 @@ jQuery(document).ready(function($) {
         }
     }
 
+    let flowSelectedValue = "";
     // Handle first step form submission
     $('#flickify-step1-form').on('submit', function(e) {
         e.preventDefault();
         $('#step1').hide();
+        flowSelectedValue = $('input[name="plan"]:checked').val();
+
         $('#step2').show();
         updateProgressBar();
     });
@@ -46,6 +49,7 @@ jQuery(document).ready(function($) {
         $('#step1').show();
         updateProgressBar();
     });
+
 
     // Handle second step form submission
     $('#flickify-step2-form').on('submit', function(e) {
@@ -333,14 +337,13 @@ jQuery(document).ready(function($) {
     $('#button5').on('click', function() {
         $('#step6').hide();
 
-        console.log($('input[name="plan"]:checked').val())
-        if ($('input[name="plan"]:checked').val() === '2') {
-            console.log($('input[name="plan"]:checked').val())
+        if (flowSelectedValue === '2') {
+            let giftSuccessfulHtml = '';
             giftSuccessfulHtml += `
-                    <img src="<?php echo $plugin_url; ?>assets/img/Isolation_Mode.svg" alt="successful"/>
+                    <img src="<?php echo $plugin_url; ?>assets/img/giftsSuccessful.svg" alt="successful"/>
 
                     <h3>A Gift that Drives a Lifetime</h3>
-                    <p>Congratulations! you have successfully gifted someone 
+                    <p>Congratulations! You have successfully gifted someone 
                     a car maintenance membership package. Download the app and track the gift</p>
                     <div>
                         <button type="button" class="button home" id="button6">
@@ -379,7 +382,7 @@ jQuery(document).ready(function($) {
     const email = $('#email');
     const firstname = $('#firstName');
     const lastname = $('#lastname');
-    const make = $('#make').find(':selected');
+    const make = $('#make');
     const model = $('#model')
     const year = $('#year')
     
@@ -387,13 +390,14 @@ jQuery(document).ready(function($) {
     const inputButton = $('#input-button');
 
     function validate() {
-        if (firstname.val() !== "" && email.val() !== "" && lastname.val() !== "" && number.val() !== "") {
+        if (firstname.val() !== "" && email.val() !== "" && lastname.val() !== "" && number.val() !== "" && make.val() !== "" && model.val() !== "" && year.val() !== "") {
             inputButton.prop('disabled', false);
         } else {
             inputButton.prop('disabled', true);
         }
     }
     inputContainer.on('input', validate);
+    $('select').on('change', validate);
 
     // function to update the progress bar
     const maxSteps = 6;
@@ -407,7 +411,7 @@ jQuery(document).ready(function($) {
                 break;
             }
         }
-        var percentage = (currentStep / maxSteps) * 100; // Reaches 100% on the 5th step
+        var percentage = (currentStep / maxSteps) * 100; // Reaches 100% on the 6th step
         greenBar.css('width', percentage + '%');
     }
 

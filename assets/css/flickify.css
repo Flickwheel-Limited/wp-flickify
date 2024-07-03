@@ -481,6 +481,7 @@ button:disabled {
     font-size: 1.8rem;
     font-weight: 600;
     margin-top: 1rem;
+    text-transform: capitalize;
 }
 
 .details-heading.unlock-text {

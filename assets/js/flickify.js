@@ -262,7 +262,7 @@ jQuery(document).ready(function($) {
                     // Clear existing benefits
                     $('.plan-details').html('');
 
-                    $('.plan-details').append(`<h2 >{{Scheme}} Benefits</h2>`)
+                    $('.plan-details').append(`<h2 >${schemeSlug.split('_').slice(1).join(' ')} Benefits</h2>`)
 
                     // Append new benefits
                     for (const level in response) {

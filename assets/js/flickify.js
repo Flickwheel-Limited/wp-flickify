@@ -1,15 +1,15 @@
 jQuery(document).ready(function($) {
-
     // Function to get query parameter value by name
     function getQueryParam(param) {
         var urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(param);
     }
 
-    // Get the 'id', 'category', and 'scheme' query parameters from the URL
+    // Get the 'id', 'category', 'scheme', and 'plan' query parameters from the URL
     var slug = getQueryParam('id');
     var categoryId = getQueryParam('category');
     var schemeSlug = getQueryParam('scheme');
+    var planSlug = getQueryParam('plan');
 
     // If 'id' parameter is present in the URL, load categories and adjust steps
     if (slug) {
@@ -23,6 +23,11 @@ jQuery(document).ready(function($) {
                 // Select the scheme checkbox and load benefits
                 $(`input[name="membership"][value="${schemeSlug}"]`).prop('checked', true);
                 loadSchemeBenefits(schemeSlug);
+            }
+            if (planSlug) {
+                $('#step4').hide();
+                loadPaymentOptions(slug, schemeSlug, planSlug);
+                $('#step5').show();
             }
         } else {
             loadCarCategories(slug);
@@ -50,7 +55,6 @@ jQuery(document).ready(function($) {
         updateProgressBar();
     });
 
-
     // Handle second step form submission
     $('#flickify-step2-form').on('submit', function(e) {
         e.preventDefault();
@@ -61,7 +65,10 @@ jQuery(document).ready(function($) {
             first_name: $('input[name="firstName"]').val(),
             last_name: $('input[name="lastName"]').val(),
             phone: $('input[name="phone"]').val(),
-            email: $('input[name="email"]').val()
+            email: $('input[name="email"]').val(),
+            make: $('select[name="make"]').val(),
+            model: $('select[name="model"]').val(),
+            year: $('select[name="year"]').val()
         };
 
         // Change the innerHTML of the input-button to 'Processing...' and disable it
@@ -71,12 +78,13 @@ jQuery(document).ready(function($) {
         $('#previous-button1').prop('disabled', true);
 
         $.ajax({
-            url: flickifyAjax.ajaxurl,
+            url: 'https://api.flickauto.com/api/v2/press/flickify/step_one/make/' + formData.make + '/model/' + formData.model,
             method: 'POST',
             data: formData,
             success: function(response) {
-                if (response.success) {
-                    slug = response.data.data.slug;
+                console.log(response);
+                if (response.status) {
+                    slug = response.data.slug;
                     // Update the URL with the new 'id' parameter
                     var newUrl = window.location.pathname + '?id=' + slug;
                     window.history.pushState({ path: newUrl }, '', newUrl);
@@ -84,12 +92,16 @@ jQuery(document).ready(function($) {
                 } else {
                     alert(response.data.message);
                 }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
             }
         });
+
         // Reset the button state after AJAX call
         inputButton.html('Continue');
-                inputButton.prop('disabled', false);
-                $('#previous-button1').prop('disabled', false);
+        inputButton.prop('disabled', false);
+        $('#previous-button1').prop('disabled', false);
     });
 
     // Function to load car categories from the API
@@ -100,7 +112,6 @@ jQuery(document).ready(function($) {
         $.ajax({
             url: 'https://api.flickauto.com/api/v2/press/flickify/step_two/' + slug,
             method: 'GET',
-        
             success: function(response) {
                 // Hide loading spinner
                 $('#loading-spinner').hide();
@@ -209,7 +220,6 @@ jQuery(document).ready(function($) {
                     // Enable button if schemeSlug exists in the URL
                     if (schemeSlug) {
                         selectSchemeRadioButton(schemeSlug);
-                        //enableButtonOnSelection(document.getElementById('button3'), 'membership');
                     }
 
                     updateProgressBar();
@@ -222,8 +232,6 @@ jQuery(document).ready(function($) {
                 } else {
                     alert('No membership plans found for this category.');
                 }
-                
-                
             },
             error: function() {
                 // Hide loading spinner and handle error
@@ -298,16 +306,98 @@ jQuery(document).ready(function($) {
         });
     }
 
-    // Handle the 'Previous' button click to go back to step 3
-    $('#previous-button3').on('click', function() {
-        $('#step4').hide();
-        $('#step3').show();
-        updateProgressBar();
-    });
+    // Function to load payment options from the API
+    function loadPaymentOptions(slug, schemeSlug, planSlug = null) {
+        $('#loading-spinner4').show();
+
+        $.ajax({
+            url: `https://api.flickauto.com/api/v2/press/flickify/${slug}/scheme/${schemeSlug}/plan`,
+            method: 'GET',
+            success: function(response) {
+                $('#loading-spinner4').hide();
+
+                if (response.data) {
+                    var plans = response.data;
+                    var paymentHtml = '';
+                    plans.forEach(function(plan) {
+                        paymentHtml += `
+                            <div class="payment-method">
+                                <div class="text-container">
+                                    <p>${plan.interval.charAt(0).toUpperCase() + plan.interval.slice(1)}</p>
+                                    <h6>₦ <span class="payment-method-price">${plan.amount}</span> / ${plan.interval}</h6>
+                                </div>
+
+                                <div class="round">
+                                    <input type="radio" id="${plan.slug}" name="payment" value="${plan.slug}" />
+                                    <label for="${plan.slug}"></label>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    $('.payment-section').html(paymentHtml);
+                    enableButtonOnSelection(document.getElementById('button4'), 'payment');
+
+                    // Add event listeners to payment radio buttons
+                    $('input[name="payment"]').on('change', function() {
+                        var selectedPlan = $(this).val();
+                        // Update the URL with the new 'plan' parameter
+                        var newUrl = window.location.pathname + '?id=' + slug + '&category=' + getQueryParam('category') + '&scheme=' + schemeSlug + '&plan=' + selectedPlan;
+                        window.history.pushState({ path: newUrl }, '', newUrl);
+                    });
+
+                    // Automatically select the plan if planSlug is provided
+                    if (planSlug) {
+                        $(`input[name="payment"][value="${planSlug}"]`).prop('checked', true).trigger('change');
+                    }
+
+                    // Fill the car details in the summary section
+                    $('.summaryTypeCategory').text(`${response.press.make} ${response.press.car_model} ${response.press.year} | ${response.press.category}`);
+                } else {
+                    alert('No payment plans found for this scheme.');
+                }
+            },
+            error: function() {
+                $('#loading-spinner4').hide();
+                alert('Failed to load payment plans. Please try again.');
+            }
+        });
+    }
+
+    // Function to load membership summary from the API
+    function loadMembershipSummary(slug, planSlug) {
+        $('#loading-spinner5').show();
+
+        $.ajax({
+            url: `https://api.flickauto.com/api/v2/press/flickify/${slug}/plan/${planSlug}/summary`,
+            method: 'GET',
+            success: function(response) {
+                $('#loading-spinner5').hide();
+
+                if (response) {
+                    // Update the membership summary section with the response data
+                    $('.summaryTypeCategory').text(`${response.make} ${response.car_model} ${response.year} | ${response.category}`);
+                    $('#category-value').text(response.category);
+                    $('#plan-value').text(response.maintenance_plan);
+                    $('#frequency-value').text(response.payment_frequency);
+                    $('#car-value').text(`${response.make} ${response.car_model} ${response.year}`);
+                    $('#amount-value').html(`₦ ${response.amount}`);
+                    $('.details-total-div .total-number').html(`₦ ${response.amount}`);
+                } else {
+                    alert('Failed to load membership summary. Please try again.');
+                }
+            },
+            error: function() {
+                $('#loading-spinner5').hide();
+                alert('Failed to load membership summary. Please try again.');
+            }
+        });
+    }
 
     // Handle the 'Continue' button click in step 4
     $('#button3').on('click', function(e) {
+        e.preventDefault();
         $('#step4').hide();
+        loadPaymentOptions(slug, schemeSlug);
         $('#step5').show();
         updateProgressBar();
     });
@@ -321,6 +411,7 @@ jQuery(document).ready(function($) {
 
     // Handle the 'Make Payment' button click in step 5
     $('#button4').on('click', function() {
+        loadMembershipSummary(slug, planSlug);
         $('#step5').hide();
         $('#step6').show();
         updateProgressBar();
@@ -385,7 +476,7 @@ jQuery(document).ready(function($) {
     const make = $('#make');
     const model = $('#model')
     const year = $('#year')
-    
+
     const inputContainer = $('.input-container');
     const inputButton = $('#input-button');
 
@@ -398,6 +489,65 @@ jQuery(document).ready(function($) {
     }
     inputContainer.on('input', validate);
     $('select').on('change', validate);
+
+    // Function to load car makes from the API
+    function loadCarMakes() {
+        $.ajax({
+            url: 'https://api.flickauto.com/api/v1/vehicle/make',
+            method: 'GET',
+            success: function(response) {
+                if (response.data) {
+                    var makes = response.data;
+                    var makesHtml = '<option value="" selected>Select Your Car Make</option>';
+                    makes.forEach(function(make) {
+                        makesHtml += `<option value="${make.id}">${make.title}</option>`;
+                    });
+                    $('#make').html(makesHtml);
+                } else {
+                    alert('Failed to load car makes.');
+                }
+            },
+            error: function() {
+                alert('Failed to load car makes. Please try again.');
+            }
+        });
+    }
+
+    // Function to load car models from the API based on selected make
+    function loadCarModels(makeId) {
+        $.ajax({
+            url: 'https://api.flickauto.com/api/v1/vehicle/make/' + makeId + '/model',
+            method: 'GET',
+            success: function(response) {
+                if (response.data) {
+                    var models = response.data;
+                    var modelsHtml = '<option value="" selected>Select Your Car Model</option>';
+                    models.forEach(function(model) {
+                        modelsHtml += `<option value="${model.id}">${model.title}</option>`;
+                    });
+                    $('#model').html(modelsHtml);
+                } else {
+                    alert('Failed to load car models.');
+                }
+            },
+            error: function() {
+                alert('Failed to load car models. Please try again.');
+            }
+        });
+    }
+
+    // Load car makes on page load
+    loadCarMakes();
+
+    // Handle make selection change to load models
+    $('#make').on('change', function() {
+        var selectedMakeId = $(this).val();
+        if (selectedMakeId) {
+            loadCarModels(selectedMakeId);
+        } else {
+            $('#model').html('<option value="" selected>e.g RX 350</option>');
+        }
+    });
 
     // function to update the progress bar
     const maxSteps = 6;

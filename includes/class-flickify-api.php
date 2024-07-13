@@ -3,8 +3,11 @@
 class Flickify_API {
 
     public static function call_api_step1($data) {
-        $response = wp_remote_post('https://api.flickauto.com/api/v2/press/flickify/step_one', array(
-        // $response = wp_remote_post('https://3po5vizq9z.sharedwithexpose.com/api/v2/press/flickify/step_one', array(
+        $make = $data['make'];
+        $model = $data['model'];
+        $url = "https://api.flickauto.com/api/v2/press/flickify/step_one/make/$make/model/$model";
+
+        $response = wp_remote_post($url, array(
             'method' => 'POST',
             'body' => json_encode($data),
             'headers' => array(

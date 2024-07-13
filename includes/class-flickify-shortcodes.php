@@ -118,29 +118,24 @@ class Flickify_Shortcodes {
                         <div class="car-type-container">
                             <div class="input-div">
                                 <label for="make">Make</label>
-
                                 <select id="make" name="make" class="">
-                                  <option value="" selected>e.g Lexus</option>
-                                  <option value="toyota">Toyota</option>
-                                  <option value="CA">Camry</option>
+                                    <option value="" selected>Select You Car Make</option>
                                 </select>
                             </div>
                             <div class="input-div">
                                 <label for="model">Model</label>
                                 <select id="model" name="model" class="">
-                                  <option value="" selected>e.g RX 350</option>
-                                  <option value="RX 450">RX 450</option>
-                                  <option value="RX 550">RX 550</option>
+                                    <option value="" selected>Select You Car Model</option>
                                 </select>
                             </div>
                             <div class="input-div">
                                 <label for="year">Year</label>
                                 <select id="year" name="year" class="">
-                                  <option value="" selected>e.g 2013</option>
-                                  <option value="2014">2014</option>
-                                  <option value="2015">2015</option>
-                                  <option value="2016">2016</option>
-                                  <option value="2017">2017</option>
+                                    <option value="" selected>e.g 2013</option>
+                                    <option value="2014">2014</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2017">2017</option>
                                 </select>
                             </div>
                         </div>
@@ -204,14 +199,14 @@ class Flickify_Shortcodes {
 
                         <div class="select-container">
                             <div id="loading-spinner2" style="display: none; width: 100%; height: 100%; padding: 4em 0;">
-                                    <div style="width: 100px; height: 100px; margin: auto;">
-                                        <svg width="100" height="100" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-                                            <circle cx="50" cy="50" fill="none" stroke="#3498db" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138">
-                                                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
-                                            </circle>
-                                        </svg>
-                                    </div>
+                                <div style="width: 100px; height: 100px; margin: auto;">
+                                    <svg width="100" height="100" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                                        <circle cx="50" cy="50" fill="none" stroke="#3498db" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138">
+                                            <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
+                                        </circle>
+                                    </svg>
                                 </div>
+                            </div>
                         </div>
 
                         <div class="buttons">
@@ -333,30 +328,30 @@ class Flickify_Shortcodes {
                             <h4>Plan Details</h4>
                             <div class="detail">
                                 <p>Car Category</p>
-                                <p class="value">Compact</p>
+                                <p id="category-value" class="value"></p>
                             </div>
                             <div class="detail">
                                 <p>Maintenance Plan</p>
-                                <p class="value">Aso Rock</p>
+                                <p id="plan-value" class="value"></p>
                             </div>
                             <div class="detail">
                                 <p>Payment Frequency</p>
-                                <p class="value">Quartely</p>
+                                <p id="frequency-value" class="value"></p>
                             </div>
                             <div class="detail">
                                 <p>Car Type</p>
-                                <p class="value">Toyota Camry  2019</p>
+                                <p id="car-value" class="value"></p>
                             </div>
                             <div class="detail">
                                 <p>Amount</p>
-                                <p class="value">₦ <span>9,125</span> / month</p>
+                                <p id="amount-value" class="value"></p>
                             </div>
                         </div>
-                        
+
                         <div class="details-total-div">
-                            <p class="details-total">₦ <span class="total-number">27,500</span></p>
+                            <p class="details-total">₦ <span class="total-number"></span></p>
                         </div>
-                     </div>
+                    </div>
 
                     <div class="buttons">
                         <button type="button" class="button" id="previous-button5">
@@ -366,6 +361,7 @@ class Flickify_Shortcodes {
                     </div>
                 </div>
             </div>
+
 
             <div id="successfully" style="display: none;">
                 <div class="logo-div">
@@ -389,3 +385,4 @@ class Flickify_Shortcodes {
         return ob_get_clean();
     }
 }
+?>

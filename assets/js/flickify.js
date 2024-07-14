@@ -29,7 +29,7 @@ jQuery(document).ready(function($) {
                 // Hide loading spinner
                 $('#loading-overlay').remove();
 
-                if (response.status && response.data.status === 'success') {
+                if (response.status && response.data.status === 'successful') {
                     $('#step1').hide();
                     $('#step2').hide();
                     $('#step3').hide();
@@ -352,6 +352,12 @@ jQuery(document).ready(function($) {
 
     // Function to load payment options from the API
     function loadPaymentOptions(slug, schemeSlug, planSlug = null) {
+        // Check if schemeSlug is null and handle accordingly
+        if (!schemeSlug) {
+            alert('Please select a scheme before proceeding to payment options.');
+            return;
+        }
+
         $('#loading-spinner4').show();
 
         $.ajax({
@@ -384,12 +390,13 @@ jQuery(document).ready(function($) {
                     // Add event listeners to payment radio buttons
                     $('input[name="payment"]').on('change', function() {
                         var selectedPlan = $(this).val();
+
                         // Update the URL with the new 'plan' parameter
                         var newUrl = window.location.pathname + '?id=' + slug + '&category=' + getQueryParam('category') + '&scheme=' + schemeSlug + '&plan=' + selectedPlan;
                         if (payment) {
                             newUrl += '&payment=true';
                         }
-                        if(reference){
+                        if (reference) {
                             newUrl += '&reference=' + reference;
                         }
                         window.history.pushState({ path: newUrl }, '', newUrl);
@@ -416,7 +423,7 @@ jQuery(document).ready(function($) {
     // Function to load membership summary from the API
     function loadMembershipSummary(slug, planSlug) {
         $('#loading-spinner5').show();
-
+        //planSlug = getQueryParam('plan');
         $.ajax({
             url: `https://api.flickauto.com/api/v2/press/flickify/${slug}/plan/${planSlug}/summary`,
             method: 'GET',
@@ -447,6 +454,8 @@ jQuery(document).ready(function($) {
     $('#button3').on('click', function(e) {
         e.preventDefault();
         $('#step4').hide();
+        schemeSlug = getQueryParam('scheme');
+        console.log('schemeSlug', schemeSlug)
         loadPaymentOptions(slug, schemeSlug);
         $('#step5').show();
         updateProgressBar();
@@ -462,6 +471,7 @@ jQuery(document).ready(function($) {
     // Handle the 'Make Payment' button click in step 5
     $('#button4').on('click', function() {
         // Append payment=true to URL and update history
+        planSlug = getQueryParam('plan');
         var newUrl = window.location.pathname + '?id=' + slug + '&category=' + getQueryParam('category') + '&scheme=' + schemeSlug + '&plan=' + planSlug + '&payment=true';
         window.history.pushState({ path: newUrl }, '', newUrl);
 

@@ -5,11 +5,49 @@ jQuery(document).ready(function($) {
         return urlParams.get(param);
     }
 
-    // Get the 'id', 'category', 'scheme', and 'plan' query parameters from the URL
+    // Get the 'id', 'category', 'scheme', 'plan', 'payment', and 'reference' query parameters from the URL
     var slug = getQueryParam('id');
     var categoryId = getQueryParam('category');
     var schemeSlug = getQueryParam('scheme');
     var planSlug = getQueryParam('plan');
+    var payment = getQueryParam('payment');
+    var reference = getQueryParam('reference');
+
+    // If 'reference' parameter is present in the URL, show loading spinner and call the API
+    if (reference) {
+        // Show loading spinner
+        $('body').append('<div id="loading-overlay"><div class="spinner"></div></div>');
+
+        // Make POST request to the API
+        $.ajax({
+            url: `https://api.flickauto.com/api/v2/press/flickify/${slug}/reference`,
+            method: 'POST',
+            data: {
+                reference: reference
+            },
+            success: function(response) {
+                // Hide loading spinner
+                $('#loading-overlay').remove();
+
+                if (response.status && response.data.status === 'success') {
+                    $('#step1').hide();
+                    $('#step2').hide();
+                    $('#step3').hide();
+                    $('#step4').hide();
+                    $('#step5').hide();
+                    $('#step6').hide();
+                    $('#successfully').show();
+                } else {
+                    alert('Transaction failed: ' + (response.data.gateway_response || 'Unknown error'));
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // Hide loading spinner
+                $('#loading-overlay').remove();
+                alert('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        });
+    }
 
     // If 'id' parameter is present in the URL, load categories and adjust steps
     if (slug) {
@@ -28,6 +66,12 @@ jQuery(document).ready(function($) {
                 $('#step4').hide();
                 loadPaymentOptions(slug, schemeSlug, planSlug);
                 $('#step5').show();
+                if (payment) {
+                    loadMembershipSummary(slug, planSlug);
+                    $('#step5').hide();
+                    $('#step6').show();
+                    console.log('Payment successful');
+                }
             }
         } else {
             loadCarCategories(slug);
@@ -342,6 +386,12 @@ jQuery(document).ready(function($) {
                         var selectedPlan = $(this).val();
                         // Update the URL with the new 'plan' parameter
                         var newUrl = window.location.pathname + '?id=' + slug + '&category=' + getQueryParam('category') + '&scheme=' + schemeSlug + '&plan=' + selectedPlan;
+                        if (payment) {
+                            newUrl += '&payment=true';
+                        }
+                        if(reference){
+                            newUrl += '&reference=' + reference;
+                        }
                         window.history.pushState({ path: newUrl }, '', newUrl);
                     });
 
@@ -411,6 +461,11 @@ jQuery(document).ready(function($) {
 
     // Handle the 'Make Payment' button click in step 5
     $('#button4').on('click', function() {
+        // Append payment=true to URL and update history
+        var newUrl = window.location.pathname + '?id=' + slug + '&category=' + getQueryParam('category') + '&scheme=' + schemeSlug + '&plan=' + planSlug + '&payment=true';
+        window.history.pushState({ path: newUrl }, '', newUrl);
+
+        // Load membership summary and navigate to step 6
         loadMembershipSummary(slug, planSlug);
         $('#step5').hide();
         $('#step6').show();
@@ -426,28 +481,25 @@ jQuery(document).ready(function($) {
 
     // Handle the 'Make Payment' button click in step 6
     $('#button5').on('click', function() {
-        $('#step6').hide();
-
-        if (flowSelectedValue === '2') {
-            let giftSuccessfulHtml = '';
-            giftSuccessfulHtml += `
-                    <img src="<?php echo $plugin_url; ?>assets/img/giftsSuccessful.svg" alt="successful"/>
-
-                    <h3>A Gift that Drives a Lifetime</h3>
-                    <p>Congratulations! You have successfully gifted someone 
-                    a car maintenance membership package. Download the app and track the gift</p>
-                    <div>
-                        <button type="button" class="button home" id="button6">
-                            Journey Home
-                        </button>
-                    </div>
-                        `;
-
-            $('.successful-screen').html(giftSuccessfulHtml);
-        }
-        $('#successfully').show();
-
-        updateProgressBar();
+        // Make the POST request to the payment endpoint
+        $.ajax({
+            url: `https://api.flickauto.com/api/v2/press/flickify/${slug}/payment`,
+            method: 'POST',
+            data: {
+                callback_url: window.location.href
+            },
+            success: function(response) {
+                if (response.status) {
+                    // Redirect to the authorization URL
+                    window.location.href = response.data.authorization_url;
+                } else {
+                    alert('Failed to create authorization URL. Please try again.');
+                }
+            },
+            error: function() {
+                alert('Failed to create authorization URL. Please try again.');
+            }
+        });
     });
 
     // Handle the 'Journey home' button click in successful screen

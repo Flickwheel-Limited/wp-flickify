@@ -1,4 +1,7 @@
 jQuery(document).ready(function($) {
+    // Set the base URL based on the environment setting
+    var baseUrl = flickifyAjax.base_url;
+
     // Function to get query parameter value by name
     function getQueryParam(param) {
         var urlParams = new URLSearchParams(window.location.search);
@@ -20,7 +23,7 @@ jQuery(document).ready(function($) {
 
         // Make POST request to the API
         $.ajax({
-            url: `https://api.flickauto.com/api/v2/press/flickify/${slug}/reference`,
+            url: `${baseUrl}/api/v2/press/flickify/${slug}/reference`,
             method: 'POST',
             data: {
                 reference: reference
@@ -114,7 +117,7 @@ jQuery(document).ready(function($) {
             model: $('select[name="model"]').val(),
             year: $('select[name="year"]').val()
         };
-
+        console.log(formData)
         // Change the innerHTML of the input-button to 'Processing...' and disable it
         let inputButton = $('#input-button');
         inputButton.html('Processing...');
@@ -122,13 +125,16 @@ jQuery(document).ready(function($) {
         $('#previous-button1').prop('disabled', true);
 
         $.ajax({
-            url: 'https://api.flickauto.com/api/v2/press/flickify/step_one/make/' + formData.make + '/model/' + formData.model,
+            url: flickifyAjax.ajaxurl,
+            // url: `${baseUrl}/api/v2/press/flickify/step_one/make/${formData.make}/model/${formData.model}`,
             method: 'POST',
             data: formData,
             success: function(response) {
                 console.log(response);
-                if (response.status) {
-                    slug = response.data.slug;
+                //if (response.status) {
+                if (response.success) {
+                    //slug = response.data.slug;
+                    slug = response.data.data.slug;
                     // Update the URL with the new 'id' parameter
                     var newUrl = window.location.pathname + '?id=' + slug;
                     window.history.pushState({ path: newUrl }, '', newUrl);
@@ -138,6 +144,7 @@ jQuery(document).ready(function($) {
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
+                console.log('error', textStatus, errorThrown)
                 alert('Error: ' + textStatus + ' - ' + errorThrown);
             }
         });
@@ -154,7 +161,7 @@ jQuery(document).ready(function($) {
         $('#loading-spinner').show();
 
         $.ajax({
-            url: 'https://api.flickauto.com/api/v2/press/flickify/step_two/' + slug,
+            url: `${baseUrl}/api/v2/press/flickify/step_two/${slug}`,
             method: 'GET',
             success: function(response) {
                 // Hide loading spinner
@@ -225,7 +232,7 @@ jQuery(document).ready(function($) {
         $('#loading-spinner2').show();
 
         $.ajax({
-            url: 'https://api.flickauto.com/api/v2/press/flickify/car_type/' + categoryId + '/scheme',
+            url: `${baseUrl}/api/v2/press/flickify/car_type/${categoryId}/scheme`,
             method: 'GET',
             success: function(response) {
                 $('#loading-spinner2').hide();
@@ -301,7 +308,7 @@ jQuery(document).ready(function($) {
         $('#previous-button3').prop('disabled', true);
 
         $.ajax({
-            url: 'https://api.flickauto.com/api/v2/press/flickify/scheme/' + schemeSlug + '/benefits',
+            url: `${baseUrl}/api/v2/press/flickify/scheme/${schemeSlug}/benefits`,
             method: 'GET',
             success: function(response) {
                 $('#loading-spinner3').hide();
@@ -361,7 +368,7 @@ jQuery(document).ready(function($) {
         $('#loading-spinner4').show();
 
         $.ajax({
-            url: `https://api.flickauto.com/api/v2/press/flickify/${slug}/scheme/${schemeSlug}/plan`,
+            url: `${baseUrl}/api/v2/press/flickify/${slug}/scheme/${schemeSlug}/plan`,
             method: 'GET',
             success: function(response) {
                 $('#loading-spinner4').hide();
@@ -425,7 +432,7 @@ jQuery(document).ready(function($) {
         $('#loading-spinner5').show();
         //planSlug = getQueryParam('plan');
         $.ajax({
-            url: `https://api.flickauto.com/api/v2/press/flickify/${slug}/plan/${planSlug}/summary`,
+            url: `${baseUrl}/api/v2/press/flickify/${slug}/plan/${planSlug}/summary`,
             method: 'GET',
             success: function(response) {
                 $('#loading-spinner5').hide();
@@ -493,7 +500,7 @@ jQuery(document).ready(function($) {
     $('#button5').on('click', function() {
         // Make the POST request to the payment endpoint
         $.ajax({
-            url: `https://api.flickauto.com/api/v2/press/flickify/${slug}/payment`,
+            url: `${baseUrl}/api/v2/press/flickify/${slug}/payment`,
             method: 'POST',
             data: {
                 callback_url: window.location.href
@@ -555,7 +562,7 @@ jQuery(document).ready(function($) {
     // Function to load car makes from the API
     function loadCarMakes() {
         $.ajax({
-            url: 'https://api.flickauto.com/api/v1/vehicle/make',
+            url: `${baseUrl}/api/v1/vehicle/make`,
             method: 'GET',
             success: function(response) {
                 if (response.data) {
@@ -578,7 +585,7 @@ jQuery(document).ready(function($) {
     // Function to load car models from the API based on selected make
     function loadCarModels(makeId) {
         $.ajax({
-            url: 'https://api.flickauto.com/api/v1/vehicle/make/' + makeId + '/model',
+            url: `${baseUrl}/api/v1/vehicle/make/${makeId}/model`,
             method: 'GET',
             success: function(response) {
                 if (response.data) {

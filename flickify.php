@@ -17,21 +17,36 @@ define('FLICKIFY_URL', plugin_dir_url(__FILE__));
 // Include necessary files.
 require_once plugin_dir_path(__FILE__) . 'includes/class-flickify-api.php';
 require_once plugin_dir_path(__FILE__) . 'includes/class-flickify-shortcodes.php';
+// Include admin options page.
+require_once plugin_dir_path(__FILE__) . 'includes/admin-options.php';
 
 // Enqueue scripts and styles.
 add_action('wp_enqueue_scripts', 'flickify_enqueue_scripts');
-function flickify_enqueue_scripts() {
+
+function flickify_enqueue_scripts(): void
+{
     wp_enqueue_style('flickify-style', FLICKIFY_URL . 'assets/css/flickify.css');
     wp_enqueue_script('flickify-script', FLICKIFY_URL . 'assets/js/flickify.js', array('jquery'), null, true);
+
+    $options = get_option('flickify_settings');
+
+    if(!isset($options['flickify_environment'])){
+        $base_url = null;
+    } else {
+        $base_url = $options['flickify_environment'] === 'live' ? $options['flickify_live_url'] : $options['flickify_staging_url'];
+    }
     wp_localize_script('flickify-script', 'flickifyAjax', array(
         'ajaxurl' => admin_url('admin-ajax.php'),
-        'nonce' => wp_create_nonce('flickify_nonce')
+        'nonce' => wp_create_nonce('flickify_nonce'),
+        'base_url' => $base_url
     ));
 }
 
+
 // Add rewrite rules.
 add_action('init', 'flickify_add_rewrite_rules');
-function flickify_add_rewrite_rules() {
+function flickify_add_rewrite_rules(): void
+{
     add_rewrite_rule('^flickify-page/?', 'index.php?flickify_page=1', 'top');
     flush_rewrite_rules(); // Ensure rewrite rules are flushed.
 }
@@ -52,31 +67,12 @@ function flickify_template_redirect() {
     }
 }
 
-// Handle AJAX requests.
-add_action('wp_ajax_flickify_submit_form', 'flickify_submit_form');
-add_action('wp_ajax_nopriv_flickify_submit_form', 'flickify_submit_form');
-function flickify_submit_form() {
-    check_ajax_referer('flickify_nonce', 'security');
-
-    $data = array(
-        'membership_option' => sanitize_text_field($_POST['membership_option']),
-        'first_name' => sanitize_text_field($_POST['first_name']),
-        'last_name' => sanitize_text_field($_POST['last_name']),
-        'phone' => sanitize_text_field($_POST['phone']),
-        'email' => sanitize_email($_POST['email']),
-    );
-
-    $response = Flickify_API::call_api_step1($data);
-
-    if (isset($response['error'])) {
-        wp_send_json_error(array('message' => $response['error']));
-    } else {
-        wp_send_json_success(array('message' => 'Form submitted successfully', 'data' => $response['data']));
-    }
-}
+require_once plugin_dir_path(__FILE__) . 'includes/ajax-request.php';
 
 add_action('init', 'flickify_init');
 function flickify_init(): void
 {
     Flickify_Shortcodes::register();
 }
+
+

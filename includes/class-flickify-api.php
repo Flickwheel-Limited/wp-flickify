@@ -16,11 +16,20 @@ class Flickify_API {
             ),
         ));
 
+        // Check for errors and log the response
         if (is_wp_error($response)) {
             return array('error' => $response->get_error_message());
         }
 
-        return json_decode(wp_remote_retrieve_body($response), true);
+        $response_code = wp_remote_retrieve_response_code($response);
+        $response_body = wp_remote_retrieve_body($response);
+
+
+        if ($response_code >= 400) {
+            return array('error' => json_decode($response_body));
+        }
+
+        return json_decode($response_body, true);
     }
 
     public static function call_api_step2($slug) {

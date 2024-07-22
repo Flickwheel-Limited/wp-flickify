@@ -206,7 +206,7 @@ class Flickify_Shortcodes {
                         </div>
 
                         <div class="buttons">
-                            <button type="button" class="button" id="previous-button2">Previous2</button>
+                            <button type="button" class="button" id="previous-button2">Previous</button>
                             <button disabled type="submit" class="button next-button" id="button2">Continue</button>
                         </div>
                     </form>
@@ -242,7 +242,7 @@ class Flickify_Shortcodes {
 
                         <div class="buttons">
                             <button type="button" class="button" id="previous-button3">
-                                Previous3
+                                Previous
                             </button>
                             <button disabled type="button" class="button next-button" id="button3">Continue</button>
                         </div>
@@ -303,7 +303,7 @@ class Flickify_Shortcodes {
 
                     <div class="buttons">
                         <button type="button" class="button" id="previous-button4">
-                            Back4
+                            Back
                         </button>
                         <button disabled type="button" class="button next-button" id="button4">Make Payment</button>
                     </div>
@@ -357,7 +357,7 @@ class Flickify_Shortcodes {
 
                     <div class="buttons">
                         <button type="button" class="button" id="previous-button5">
-                            Back5
+                            Back
                         </button>
                         <button type="button" class="button next-button" id="button5">Make Payment</button>
                     </div>

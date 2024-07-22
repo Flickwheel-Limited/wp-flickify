@@ -32,7 +32,7 @@ jQuery(document).ready(function($) {
                 // Hide loading spinner
                 $('#loading-overlay').remove();
 
-                if (response.status && response.data.status === 'successful') {
+                if (response.status && response.data.status === 'success') {
                     $('#step1').hide();
                     $('#step2').hide();
                     $('#step3').hide();
@@ -60,6 +60,7 @@ jQuery(document).ready(function($) {
             $('#step2').hide();
             $('#step3').hide();
             $('#step4').show();
+            
             if (schemeSlug) {
                 // Select the scheme checkbox and load benefits
                 $(`input[name="membership"][value="${schemeSlug}"]`).prop('checked', true);
@@ -73,7 +74,7 @@ jQuery(document).ready(function($) {
                     loadMembershipSummary(slug, planSlug);
                     $('#step5').hide();
                     $('#step6').show();
-                    console.log('Payment successful');
+                    // console.log('Payment successful');
                 }
             }
         } else {
@@ -95,7 +96,7 @@ jQuery(document).ready(function($) {
         updateProgressBar();
     });
 
-    // Handle the 'Previous' button click to go back to step 2
+    // Handle the 'Previous' button click to go back to step 1
     $('#previous-button1').on('click', function() {
         $('#step2').hide();
         $('#step1').show();
@@ -105,6 +106,13 @@ jQuery(document).ready(function($) {
     // Handle second step form submission
     $('#flickify-step2-form').on('submit', function(e) {
         e.preventDefault();
+
+        // Change the innerHTML of the input-button to 'Processing...' and disable it
+        let inputButton = $('#input-button');
+        inputButton.html('Processing...');
+        inputButton.prop('disabled', true);
+        $('#previous-button1').prop('disabled', true);
+
         var formData = {
             action: 'flickify_submit_form',
             security: flickifyAjax.nonce,
@@ -117,12 +125,6 @@ jQuery(document).ready(function($) {
             model: $('select[name="model"]').val(),
             year: $('select[name="year"]').val()
         };
-        console.log(formData)
-        // Change the innerHTML of the input-button to 'Processing...' and disable it
-        let inputButton = $('#input-button');
-        inputButton.html('Processing...');
-        inputButton.prop('disabled', true);
-        $('#previous-button1').prop('disabled', true);
 
         $.ajax({
             url: flickifyAjax.ajaxurl,
@@ -130,10 +132,7 @@ jQuery(document).ready(function($) {
             method: 'POST',
             data: formData,
             success: function(response) {
-                console.log(response);
-                //if (response.status) {
                 if (response.success) {
-                    //slug = response.data.slug;
                     slug = response.data.data.slug;
                     // Update the URL with the new 'id' parameter
                     var newUrl = window.location.pathname + '?id=' + slug;
@@ -144,12 +143,14 @@ jQuery(document).ready(function($) {
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                console.log('error', textStatus, errorThrown)
                 alert('Error: ' + textStatus + ' - ' + errorThrown);
+                // Reset the button state after AJAX call
+                inputButton.html('Continue');
+                inputButton.prop('disabled', false);
+                $('#previous-button1').prop('disabled', false);
             }
         });
 
-        // Reset the button state after AJAX call
         inputButton.html('Continue');
         inputButton.prop('disabled', false);
         $('#previous-button1').prop('disabled', false);
@@ -165,7 +166,7 @@ jQuery(document).ready(function($) {
             method: 'GET',
             success: function(response) {
                 // Hide loading spinner
-                $('#loading-spinner').hide();
+                // $('#loading-spinner').hide();
 
                 if (response.status) {
                     var categories = response.data.categories;
@@ -185,6 +186,7 @@ jQuery(document).ready(function($) {
                         `;
                     });
                     $('#car-categories').html(categoriesHtml);
+                    $('#loading-spinner').hide();
                     $('#step2').hide();
                     $('#step3').show();
                     updateProgressBar();
@@ -203,9 +205,11 @@ jQuery(document).ready(function($) {
         });
     }
 
-    // Handle the 'Previous' button click to go back to step 2
-    $('#previous-button2').on('click', function() {
+      // Handle the 'Previous' button click to go back to step 2
+      $('#previous-button2').on('click', function() {
         $('#step3').hide();
+        const newUrl2 = window.location.pathname
+        window.history.pushState({ path: newUrl2 }, '', newUrl2);
         $('#step2').show();
         updateProgressBar();
     });
@@ -224,6 +228,15 @@ jQuery(document).ready(function($) {
         loadMembershipPlans(selectedCategory);
         $('#step3').hide();
         $('#step4').show();
+        updateProgressBar();
+    });
+
+     // Handle the 'Previous' button click to go back to step 3
+     $('#previous-button3').on('click', function() {
+        $('#step4').hide();
+        const newUrl3 = window.location.pathname + '?id=' + slug;
+        window.history.pushState({ path: newUrl3 }, '', newUrl3);
+        $('#step3').show();
         updateProgressBar();
     });
 
@@ -343,18 +356,25 @@ jQuery(document).ready(function($) {
                     }
                 } else {
                     alert('No benefits found for this scheme.');
+                    continueButton.html('Continue');
+                    continueButton.prop('disabled', false);
+                    $('#previous-button3').prop('disabled', false);
                 }
 
-                continueButton.html('Continue');
-                continueButton.prop('disabled', false);
-                $('#previous-button3').prop('disabled', false);
             },
             error: function() {
                 // Hide loading spinner and handle error
                 $('#loading-spinner3').hide();
                 alert('Failed to load scheme benefits plan. Please try again.');
+                continueButton.html('Continue');
+                continueButton.prop('disabled', false);
+                $('#previous-button3').prop('disabled', false);
             }
         });
+
+        continueButton.html('Continue');
+        continueButton.prop('disabled', false);
+        $('#previous-button3').prop('disabled', false);
     }
 
     // Function to load payment options from the API
@@ -371,7 +391,7 @@ jQuery(document).ready(function($) {
             url: `${baseUrl}/api/v2/press/flickify/${slug}/scheme/${schemeSlug}/plan`,
             method: 'GET',
             success: function(response) {
-                $('#loading-spinner4').hide();
+            
 
                 if (response.data) {
                     var plans = response.data;
@@ -381,7 +401,7 @@ jQuery(document).ready(function($) {
                             <div class="payment-method">
                                 <div class="text-container">
                                     <p>${plan.interval.charAt(0).toUpperCase() + plan.interval.slice(1)}</p>
-                                    <h6>₦ <span class="payment-method-price">${plan.amount}</span> / ${plan.interval}</h6>
+                                    <h6>₦ <span class="payment-method-price">${parseInt(plan?.amount)?.toLocaleString()}</span> / ${plan.interval}</h6>
                                 </div>
 
                                 <div class="round">
@@ -391,6 +411,7 @@ jQuery(document).ready(function($) {
                             </div>
                         `;
                     });
+                    $('#loading-spinner4').hide();
                     $('.payment-section').html(paymentHtml);
                     enableButtonOnSelection(document.getElementById('button4'), 'payment');
 
@@ -415,6 +436,7 @@ jQuery(document).ready(function($) {
                     }
 
                     // Fill the car details in the summary section
+                    $('#loading-spinner-summary').hide();
                     $('.summaryTypeCategory').text(`${response.press.make} ${response.press.car_model} ${response.press.year} | ${response.press.category}`);
                 } else {
                     alert('No payment plans found for this scheme.');
@@ -444,8 +466,8 @@ jQuery(document).ready(function($) {
                     $('#plan-value').text(response.maintenance_plan);
                     $('#frequency-value').text(response.payment_frequency);
                     $('#car-value').text(`${response.make} ${response.car_model} ${response.year}`);
-                    $('#amount-value').html(`₦ ${response.amount}`);
-                    $('.details-total-div .total-number').html(`₦ ${response.amount}`);
+                    $('#amount-value').html(`${response.amount}`);
+                    $('.details-total-div .total-number').html(`${response.amount}`);
                 } else {
                     alert('Failed to load membership summary. Please try again.');
                 }
@@ -462,7 +484,6 @@ jQuery(document).ready(function($) {
         e.preventDefault();
         $('#step4').hide();
         schemeSlug = getQueryParam('scheme');
-        console.log('schemeSlug', schemeSlug)
         loadPaymentOptions(slug, schemeSlug);
         $('#step5').show();
         updateProgressBar();
@@ -471,6 +492,8 @@ jQuery(document).ready(function($) {
     // Handle the 'Previous' button click to go back to step 4
     $('#previous-button4').on('click', function() {
         $('#step5').hide();
+        const newUrl4 = window.location.pathname + '?id=' + slug + '&category=' + getQueryParam('category');
+        window.history.pushState({ path: newUrl4 }, '', newUrl4);
         $('#step4').show();
         updateProgressBar();
     });
@@ -492,6 +515,8 @@ jQuery(document).ready(function($) {
     // Handle the 'Previous' button click to go back to step 5
     $('#previous-button5').on('click', function() {
         $('#step6').hide();
+        const newUrl5 = window.location.pathname + '?id=' + slug + '&category=' + getQueryParam('category') + '&scheme=' + schemeSlug;
+        window.history.pushState({ path: newUrl5 }, '', newUrl5);
         $('#step5').show();
         updateProgressBar();
     });

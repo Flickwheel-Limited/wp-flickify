@@ -132,10 +132,41 @@ class Flickify_Shortcodes {
                                 <label for="year">Year</label>
                                 <select id="year" name="year" class="">
                                     <option value="" selected>e.g 2013</option>
+                                    <option value="1990">1990</option>
+                                    <option value="1991">1991</option>
+                                    <option value="1992">1992</option>
+                                    <option value="1993">1993</option>
+                                    <option value="1994">1994</option>
+                                    <option value="1995">1995</option>
+                                    <option value="1996">1996</option>
+                                    <option value="1997">1997</option>
+                                    <option value="1998">1998</option>
+                                    <option value="1999">1999</option>
+                                    <option value="2000">2000</option>
+                                    <option value="2001">2001</option>
+                                    <option value="2002">2002</option>
+                                    <option value="2003">2003</option>
+                                    <option value="2004">2004</option>
+                                    <option value="2005">2005</option>
+                                    <option value="2006">2006</option>
+                                    <option value="2007">2007</option>
+                                    <option value="2008">2008</option>
+                                    <option value="2009">2009</option>
+                                    <option value="2010">2010</option>
+                                    <option value="2011">2011</option>
+                                    <option value="2012">2012</option>
+                                    <option value="2013">2013</option>
                                     <option value="2014">2014</option>
                                     <option value="2015">2015</option>
                                     <option value="2016">2016</option>
                                     <option value="2017">2017</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
                                 </select>
                             </div>
                         </div>
@@ -175,7 +206,7 @@ class Flickify_Shortcodes {
                         </div>
 
                         <div class="buttons">
-                            <button type="button" class="button" id="previous-button2">Previous</button>
+                            <button type="button" class="button" id="previous-button2">Previous2</button>
                             <button disabled type="submit" class="button next-button" id="button2">Continue</button>
                         </div>
                     </form>
@@ -211,7 +242,7 @@ class Flickify_Shortcodes {
 
                         <div class="buttons">
                             <button type="button" class="button" id="previous-button3">
-                                Previous
+                                Previous3
                             </button>
                             <button disabled type="button" class="button next-button" id="button3">Continue</button>
                         </div>
@@ -245,63 +276,34 @@ class Flickify_Shortcodes {
                 <div class="summary-container">
                     <div class="summary">
                         <h2>Select Payment</h2>
-                        <p class="summaryTypeCategory">{{Type of car (e.g) Toyota Camry 2019}} | {{Category (e.g) Compact car}}</p>
+                        <div class="summaryTypeCategory" style="display: block; position: relative;">
+                            <div id="loading-spinner-summary" style=" width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+                                <div style="width: 50px; height: 50px; margin: auto; position: absolute; top: 0; left: 0;">
+                                    <svg width="20" height="20" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                                        <circle cx="50" cy="50" fill="none" stroke="#3498db" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138">
+                                            <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
+                                        </circle>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="payment-section">
-                        <div class="payment-method">
-                            <div class="text-container">
-                                <p>Monthly</p>
-                                <h6>₦ <span class="payment-method-price">9,800</span> / month</h6>
-                            </div>
-
-                            <div class="round">
-                                <input type="radio" id="monthly" name="payment" />
-                                <label for="monthly"></label>
-                            </div>
-
-                        </div>
-
-                        <div class="payment-method">
-                            <div class="text-container">
-                                <p>Quarterly</p>
-                                <h6>₦ <span class="payment-method-price">9,167</span> / month</h6>
-                                <p>₦ 27,500 billed every 3 months</p>
-                            </div>
-
-                            <div class="star-container">
-                                <img src="<?php echo $plugin_url; ?>assets/img/magic-star.svg"/>
-                                <p>Save 6%</p>
-                            </div>
-
-                            <div class="round">
-                                <input type="radio" id="quarterly" name="payment" />
-                                <label for="quarterly"></label>
-                            </div>
-                        </div>
-
-                        <div class="payment-method">
-                            <div class="text-container">
-                                <p>Annually</p>
-                                <h6>₦ <span class="payment-method-price">6,708</span> / month</h6>
-                                <p>₦ 80,500 billed every 12 months</p>
-
-                                <div class="star-container">
-                                    <img src="<?php echo $plugin_url; ?>assets/img/magic-star.svg"/>
-                                    <p>Save 12%</p>
-                                </div>
-                            </div>
-
-                            <div class="round">
-                                <input type="radio" id="yearly" name="payment" />
-                                <label for="yearly"></label>
+                        <div id="loading-spinner4" style="display: none; width: 100%; height: 100%; padding: 4em 0;">
+                            <div style="width: 100px; height: 100px; margin: auto;">
+                                <svg width="100" height="100" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                                    <circle cx="50" cy="50" fill="none" stroke="#3498db" stroke-width="10" r="35" stroke-dasharray="164.93361431346415 56.97787143782138">
+                                        <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
+                                    </circle>
+                                </svg>
                             </div>
                         </div>
                     </div>
 
                     <div class="buttons">
                         <button type="button" class="button" id="previous-button4">
-                            Back
+                            Back4
                         </button>
                         <button disabled type="button" class="button next-button" id="button4">Make Payment</button>
                     </div>
@@ -349,13 +351,13 @@ class Flickify_Shortcodes {
                         </div>
 
                         <div class="details-total-div">
-                            <p class="details-total">₦ <span class="total-number"></span></p>
+                            <p class="details-total"><span class="total-number"></span></p>
                         </div>
                     </div>
 
                     <div class="buttons">
                         <button type="button" class="button" id="previous-button5">
-                            Back
+                            Back5
                         </button>
                         <button type="button" class="button next-button" id="button5">Make Payment</button>
                     </div>

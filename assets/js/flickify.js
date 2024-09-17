@@ -19,6 +19,16 @@ jQuery(document).ready(function($) {
         return null;
     }
 
+    function deleteCookieIfExists(name) {
+        let cookieValue = getCookie(name);
+        if (cookieValue) {
+            document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            console.log(`${name} cookie deleted.`);
+        } else {
+            console.log(`${name} cookie not found.`);
+        }
+    }
+
     // Get the 'id', 'category', 'scheme', 'plan', 'payment', and 'reference' query parameters from the URL
     var slug = getQueryParam('id');
     var categoryId = getQueryParam('category');
@@ -65,6 +75,7 @@ jQuery(document).ready(function($) {
                     $('#step5').hide();
                     $('#step6').hide();
                     $('#successfully').show();
+                    deleteCookieIfExists('flickwheel_aqua');
                 } else {
                     alert('Transaction failed: ' + (response.data.gateway_response || 'Unknown error'));
                 }

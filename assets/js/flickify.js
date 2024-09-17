@@ -57,7 +57,7 @@ jQuery(document).ready(function($) {
                 // Hide loading spinner
                 $('#loading-overlay').remove();
 
-                if (response.status && response.data.status === 'successful') {
+                if (response.status && response.data.status === 'success') {
                     $('#step1').hide();
                     $('#step2').hide();
                     $('#step3').hide();

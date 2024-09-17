@@ -8,6 +8,17 @@ jQuery(document).ready(function($) {
         return urlParams.get(param);
     }
 
+    function getCookie(name) {
+        let cookieArr = document.cookie.split(";");
+        for (let i = 0; i < cookieArr.length; i++) {
+            let cookiePair = cookieArr[i].split("=");
+            if (name === cookiePair[0].trim()) {
+                return decodeURIComponent(cookiePair[1]);
+            }
+        }
+        return null;
+    }
+
     // Get the 'id', 'category', 'scheme', 'plan', 'payment', and 'reference' query parameters from the URL
     var slug = getQueryParam('id');
     var categoryId = getQueryParam('category');
@@ -15,7 +26,21 @@ jQuery(document).ready(function($) {
     var planSlug = getQueryParam('plan');
     var payment = getQueryParam('payment');
     var reference = getQueryParam('reference');
+    var aqua = getQueryParam('aqua')
 
+    if(aqua){
+        $.ajax({
+            url: `${baseUrl}/api/v2/press/flickify/vendor/${aqua}`,
+            method: 'GET',
+            success: function (response) {
+                document.cookie = `flickwheel_aqua=${aqua}; path=/; expires=${new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toUTCString()};`;
+                console.log(response)
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log('Error: ' + textStatus + ' - ' + errorThrown);
+            }
+        })
+    }
     // If 'reference' parameter is present in the URL, show loading spinner and call the API
     if (reference) {
         // Show loading spinner
@@ -498,13 +523,23 @@ jQuery(document).ready(function($) {
 
     // Handle the 'Make Payment' button click in step 6
     $('#button5').on('click', function() {
+        let aquaCookie = getCookie('flickwheel_aqua');
+
+        let dataPayload = {
+            callback_url: window.location.href
+        };
+
+        if (aquaCookie) {
+            dataPayload.aqua = aquaCookie;
+        }
+
+
+
         // Make the POST request to the payment endpoint
         $.ajax({
             url: `${baseUrl}/api/v2/press/flickify/${slug}/payment`,
             method: 'POST',
-            data: {
-                callback_url: window.location.href
-            },
+            data: dataPayload,
             success: function(response) {
                 if (response.status) {
                     // Redirect to the authorization URL

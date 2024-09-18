@@ -29,7 +29,7 @@ jQuery(document).ready(function($) {
         }
     }
 
-    // Get the 'id', 'category', 'scheme', 'plan', 'payment', and 'reference' query parameters from the URL
+    // Get the 'ids', 'category', 'scheme', 'plan', 'payment', and 'reference' query parameters from the URL
     var slug = getQueryParam('id');
     var categoryId = getQueryParam('category');
     var schemeSlug = getQueryParam('scheme');
